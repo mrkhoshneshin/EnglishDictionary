@@ -11,31 +11,34 @@ const val SEARCH = "search"
 /**
  * @param route Guide for navHost that which destination must navigate
  */
-sealed class BottomNavItem(
+sealed class Screen(
     val route: String,
     val activeIcon: Int,
     val disableIcon: Int,
     val title: String
 ) {
-    object HomeBottomNavItem : BottomNavItem(
+
+    object SplashScreen : Screen(SPLASH, -1,-1,"Splash")
+
+    object HomeScreen : Screen(
         HOME,
-        R.drawable.baseline_home_24,
-        R.drawable.baseline_home_24,
+        R.drawable.home_fill,
+        R.drawable.home,
         "Home"
     )
 
-    object SearchBottomNavItem : BottomNavItem(
+    object SearchScreen : Screen(
         SEARCH,
-        R.drawable.baseline_search_24,
-        R.drawable.baseline_search_24,
+        R.drawable.search_fill,
+        R.drawable.search_normal,
         "Search"
     )
 
-    object ProfileBottomNavItem :
-        BottomNavItem(
+    object ProfileScreen :
+        Screen(
             PROFILE,
-            R.drawable.baseline_verified_user_24,
-            R.drawable.baseline_verified_user_24,
+            R.drawable.user_fill,
+            R.drawable.user,
             "Profile"
         )
 }

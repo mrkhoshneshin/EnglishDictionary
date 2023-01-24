@@ -9,4 +9,6 @@ interface HomeRepository {
     fun getBanners(): Flow<List<Slider>>
     //Stuffs at middle of home screen
     fun getFeatures(): Flow<List<String>>
+
+    fun getUserName(): Flow<String>
 }
