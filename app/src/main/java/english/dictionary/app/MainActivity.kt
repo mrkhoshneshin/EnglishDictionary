@@ -5,12 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import english.dictionary.app.ui.NavigationGraph
 import english.dictionary.app.ui.bottomNavigation.BottomNavigation
 import english.dictionary.app.ui.theme.EnglishDictionaryTheme
+import english.dictionary.app.ui.theme.backgroundColor
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +25,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             EnglishDictionaryTheme {
-                Scaffold(bottomBar = { BottomNavigation(navController) }){
+                Scaffold(
+                    modifier = Modifier.fillMaxSize().background(backgroundColor),
+                    bottomBar = { BottomNavigation(navController) }) {
                     NavigationGraph(navController)
                 }
             }

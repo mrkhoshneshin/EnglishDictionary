@@ -19,23 +19,23 @@ sealed class BottomNavItem(
 ) {
     object HomeBottomNavItem : BottomNavItem(
         HOME,
-        R.drawable.baseline_home_24,
-        R.drawable.baseline_home_24,
+        R.drawable.home_fill,
+        R.drawable.home,
         "Home"
     )
 
     object SearchBottomNavItem : BottomNavItem(
         SEARCH,
-        R.drawable.baseline_search_24,
-        R.drawable.baseline_search_24,
+        R.drawable.search_fill,
+        R.drawable.search_normal,
         "Search"
     )
 
     object ProfileBottomNavItem :
         BottomNavItem(
             PROFILE,
-            R.drawable.baseline_verified_user_24,
-            R.drawable.baseline_verified_user_24,
+            R.drawable.user_fill,
+            R.drawable.user,
             "Profile"
         )
 }

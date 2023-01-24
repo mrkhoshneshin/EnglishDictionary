@@ -7,6 +7,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -16,7 +17,8 @@ fun BottomNavigation(
     navController: NavHostController,
     backgroundColor: Color = Color.White,
     selectedItemColor: Color = Color.Blue,
-    unselectedItemColor: Color = Color.Magenta,
+    unselectedItemColor: Color = Color.DarkGray,
+
 ) {
     val items = listOf(
         BottomNavItem.HomeBottomNavItem,
