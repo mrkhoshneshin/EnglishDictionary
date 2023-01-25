@@ -6,8 +6,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,17 +15,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.android.material.slider.Slider
 import english.dictionary.app.R
 import english.dictionary.app.data.Feature
 import english.dictionary.app.data.User
+import english.dictionary.app.ui.common.SearchBox
+import english.dictionary.app.ui.common.UsersItem
 import english.dictionary.app.ui.theme.DefaultTextStyle
 import english.dictionary.app.ui.theme.blue
 
@@ -48,7 +46,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
         )
         //TODO add real list here
         ViewPagerSlider()
-        SearchBoxSection(
+        SearchBox(
             textFieldValue = searchBoxState,
             onTextFieldTextChanged = { searchBoxState = it },
             onSearchIconClicked = { /*TODO*/ }) {
@@ -103,43 +101,6 @@ fun GreetingTextSection(
     }
 }
 
-@Composable
-fun SearchBoxSection(
-    modifier: Modifier = Modifier,
-    label: String = "Search something",
-    selectedStrokeColor: Color = blue,
-    icon: Int = R.drawable.search,
-    iconTint: Color = blue,
-    textFieldValue: String,
-    onTextFieldTextChanged: (String) -> Unit,
-    onSearchIconClicked: () -> Unit,
-    onKeyBoardOptionClicked: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-    ) {
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp),
-            value = textFieldValue,
-            label = { Text(text = label, style = DefaultTextStyle(), color = Color.Gray) },
-            shape = RoundedCornerShape(12.dp),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.search),
-                    contentDescription = "searchIcon",
-                    tint = blue
-                )
-            },
-            singleLine = true,
-            keyboardActions = KeyboardActions(onSearch = {}),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            onValueChange = { onTextFieldTextChanged(it) })
-    }
-}
 
 
 @Composable
@@ -189,23 +150,7 @@ fun FeatureItem(
 }
 
 //should change images type when api is ready
-@Composable
-fun UsersItem(
-    image: Int = R.drawable.user_scan,
-    smallImage: Int? = null,
-) {
-    Image(
-        modifier = Modifier
-            .height(150.dp)
-            .width(90.dp)
-            .padding(start = 5.dp, end = 5.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.DarkGray),
-        painter = painterResource(id = image),
-        contentDescription = "userImage",
-        contentScale = ContentScale.Fit
-    )
-}
+
 
 @Composable
 fun UsersListSection(
