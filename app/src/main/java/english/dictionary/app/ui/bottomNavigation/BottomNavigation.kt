@@ -43,11 +43,9 @@ fun BottomNavigation(
                     selected = it.route == currentRoute,
                     onClick = {
                         navController.navigate(it.route) {
-                            navController.graph.startDestinationRoute?.let { screenRoute ->
-                                popUpTo(screenRoute) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
+                            popUpTo(Screen.HomeScreen.route){saveState = true}
+                            launchSingleTop = true
+                            restoreState = true
                         }
                     }
                 )
