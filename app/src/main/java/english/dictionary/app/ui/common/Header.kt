@@ -1,5 +1,6 @@
 package english.dictionary.app.ui.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,21 +20,30 @@ import english.dictionary.app.ui.theme.blue
 
 @Composable
 fun Header(
+    modifier: Modifier = Modifier,
     headerTitle: String,
     leftIcon: Int,
-    rightIcon: Int
+    rightIcon: Int,
+    onLeftIconClicked: () -> Unit,
+    onRightIconClicked: () -> Unit
 ) {
-    Row(modifier = Modifier.fillMaxWidth().padding(bottom = 15.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         Row {
             Icon(
                 painter = painterResource(id = leftIcon),
                 contentDescription = "leftIcon",
                 tint = blue,
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .clickable { onLeftIconClicked() }
             )
             Text(text = headerTitle, style = DefaultTextStyle(fontWeight = FontWeight.Bold))
         }
         Icon(
+            modifier = Modifier.clickable { onRightIconClicked() },
             painter = painterResource(id = rightIcon),
             contentDescription = "rightIcon",
             tint = blue
@@ -44,5 +54,10 @@ fun Header(
 @Composable
 @Preview(showBackground = true)
 fun HeaderPreview() {
-    Header(headerTitle = "Profile", leftIcon = R.drawable.menu, rightIcon = R.drawable.microphone)
+    Header(
+        headerTitle = "Profile",
+        leftIcon = R.drawable.menu,
+        rightIcon = R.drawable.microphone,
+        onLeftIconClicked = {},
+        onRightIconClicked = {})
 }

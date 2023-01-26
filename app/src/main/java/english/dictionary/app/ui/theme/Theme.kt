@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -35,12 +36,14 @@ private val LightColorPalette = lightColors(
 fun DefaultTextStyle(
     fontSize: TextUnit = MaterialTheme.typography.body1.fontSize,
     fontFamily: FontFamily = shabnam,
-    fontWeight: FontWeight = FontWeight.Medium
+    fontWeight: FontWeight = FontWeight.Medium,
+    color : Color = Color.Black
 ): TextStyle {
     return TextStyle(
         fontWeight = fontWeight,
         fontFamily = fontFamily,
-        fontSize = fontSize
+        fontSize = fontSize,
+        color = color
     )
 }
 

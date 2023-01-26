@@ -33,7 +33,7 @@ fun NavigationGraph(
             HomeScreen(viewModel)
         }
         composable(Screen.SearchScreen.route) {
-            SearchScreen()
+            SearchScreen(onWordItemClicked = {})
         }
         composable(Screen.ProfileScreen.route) {
             ProfileScreen()

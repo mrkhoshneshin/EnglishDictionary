@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">EnglishDictionary</string>
+    <string name="app_name">دیکشنری تخصصی</string>
     <string name="fullName">Full name</string>
-    <string name="university">University</string>
-    <string name="education">Education</string>
+    <string name="university">دانشگاه</string>
+    <string name="education">رشته</string>
     <string name="text">English texts for beginners to practice reading and comprehension online and for free. Practicing your comprehension of written English will both improve your vocabulary and understanding of grammar and word order. The texts below are designed to help you develop while giving you an instant evaluation of your progress.</string>
-    <string name="expert_dictionary">Expert dictionary</string>
-    <string name="materials_and_metallurgy_engineers">Materials and metallurgy engineers</string>
+    <string name="expert_dictionary">دیکشنری تخصصی</string>
+    <string name="materials_and_metallurgy_engineers">مهندسین مواد و متالوژی</string>
 </resources>

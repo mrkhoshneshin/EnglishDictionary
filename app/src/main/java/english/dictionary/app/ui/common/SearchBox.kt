@@ -32,9 +32,8 @@ fun SearchBox(
     onKeyBoardOptionClicked: () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(15.dp)
     ) {
         OutlinedTextField(
             modifier = Modifier
