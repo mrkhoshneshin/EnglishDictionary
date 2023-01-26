@@ -43,7 +43,7 @@ fun DefaultTextStyle(
         fontWeight = fontWeight,
         fontFamily = fontFamily,
         fontSize = fontSize,
-        color = color
+        color = color,
     )
 }
 

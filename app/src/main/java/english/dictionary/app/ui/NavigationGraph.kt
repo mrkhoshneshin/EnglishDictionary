@@ -12,6 +12,7 @@ import english.dictionary.app.screen.home.HomeViewModel
 import english.dictionary.app.screen.profile.ProfileScreen
 import english.dictionary.app.screen.search.SearchScreen
 import english.dictionary.app.screen.splash.AnimatedSplashScreen
+import english.dictionary.app.screen.word.WordScreen
 import english.dictionary.app.ui.bottomNavigation.Screen
 
 @OptIn(ExperimentalPagerApi::class)
@@ -28,15 +29,17 @@ fun NavigationGraph(
             })
         }
         composable(Screen.HomeScreen.route) {
-
             val viewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(viewModel)
         }
         composable(Screen.SearchScreen.route) {
-            SearchScreen(onWordItemClicked = {})
+            SearchScreen(onWordItemClicked = { navController.navigate(Screen.WordDetail.route) })
         }
         composable(Screen.ProfileScreen.route) {
             ProfileScreen()
+        }
+        composable(Screen.WordDetail.route){
+            WordScreen()
         }
     }
 }

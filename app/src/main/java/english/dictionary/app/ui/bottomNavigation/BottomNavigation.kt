@@ -1,5 +1,6 @@
 package english.dictionary.app.ui.bottomNavigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.compose.material.BottomNavigation
@@ -17,6 +18,8 @@ fun BottomNavigation(
     backgroundColor: Color = Color.White,
     selectedItemColor: Color = Color.Blue,
     unselectedItemColor: Color = Color.DarkGray,
+    onSelectChanged: (Int) -> Unit,
+    selectedIndex: Int
 ) {
     val route = navController.currentBackStackEntryAsState().value?.destination?.route
     if (route != null && route != Screen.SplashScreen.route) {
@@ -27,23 +30,21 @@ fun BottomNavigation(
         )
         BottomNavigation(backgroundColor = backgroundColor) {
 
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-
             items.forEach {
                 BottomNavigationItem(
                     icon = {
                         Icon(
-                            painter = painterResource(if (it.route == currentRoute) it.activeIcon else it.disableIcon),
+                            painter = painterResource(if (selectedIndex == it.index) it.activeIcon else it.disableIcon),
                             contentDescription = "icon"
                         )
                     },
                     selectedContentColor = selectedItemColor,
                     unselectedContentColor = unselectedItemColor,
-                    selected = it.route == currentRoute,
+                    selected = selectedIndex == it.index,
                     onClick = {
+                        onSelectChanged(it.index)
                         navController.navigate(it.route) {
-                            popUpTo(Screen.HomeScreen.route){saveState = true}
+                            popUpTo(Screen.HomeScreen.route) { saveState = true }
                             launchSingleTop = true
                             restoreState = true
                         }

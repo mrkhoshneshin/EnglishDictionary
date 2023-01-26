@@ -8,6 +8,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,10 +28,18 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            var selectedBottomNavigationItemIndex by remember { mutableStateOf(0) }
             EnglishDictionaryTheme {
                 Scaffold(
-                    modifier = Modifier.fillMaxSize().background(backgroundColor),
-                    bottomBar = { BottomNavigation(navController) }) {
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(backgroundColor),
+                    bottomBar = {
+                        BottomNavigation(
+                            navController,
+                            selectedIndex = selectedBottomNavigationItemIndex,
+                            onSelectChanged = { selectedBottomNavigationItemIndex = it })
+                    }) {
                     NavigationGraph(navController)
                 }
             }
