@@ -36,7 +36,12 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
             .padding(15.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Header("Profile", R.drawable.menu, R.drawable.microphone)
+        Header(modifier = Modifier.padding(bottom = 12.dp),
+            headerTitle = "Profile",
+            leftIcon = R.drawable.menu,
+            rightIcon = R.drawable.microphone,
+            onLeftIconClicked = {},
+            onRightIconClicked = {})
         UserInformationSection(viewModel.getUser())
         DescriptionSection()
     }
@@ -117,5 +122,10 @@ fun TextWithIcon(
 
 @Composable
 fun DescriptionSection() {
-    Text(modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.text), style = DefaultTextStyle(), textAlign = TextAlign.Justify)
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(id = R.string.text),
+        style = DefaultTextStyle(),
+        textAlign = TextAlign.Justify
+    )
 }

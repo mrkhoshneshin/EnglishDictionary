@@ -24,6 +24,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import english.dictionary.app.R
 import english.dictionary.app.data.Feature
 import english.dictionary.app.data.User
+import english.dictionary.app.ui.common.Header
 import english.dictionary.app.ui.common.SearchBox
 import english.dictionary.app.ui.common.UsersItem
 import english.dictionary.app.ui.theme.DefaultTextStyle
@@ -39,15 +40,20 @@ fun HomeScreen(viewModel: HomeViewModel) {
             .padding(bottom = 70.dp)
             .fillMaxSize()
     ) {
-        GreetingTextSection(
-            userName = viewModel.getUserName().collectAsState(initial = "").value,
-            onMenuIconClicked = {},
-            onSpeechIconClicked = {}
+        Header(
+            modifier = Modifier.padding(15.dp),
+            headerTitle = "Hi ${
+                viewModel.getUserName().collectAsState(initial = "").value
+            }, Good midnight",
+            leftIcon = R.drawable.menu,
+            rightIcon = R.drawable.microphone,
+            onLeftIconClicked = {},
+            onRightIconClicked = {}
         )
         //TODO add real list here
         ViewPagerSlider()
         SearchBox(
-            textFieldValue = searchBoxState,
+            modifier = Modifier.padding(15.dp), textFieldValue = searchBoxState,
             onTextFieldTextChanged = { searchBoxState = it },
             onSearchIconClicked = { /*TODO*/ }) {
         }
@@ -64,48 +70,8 @@ fun HomeScreenPreview() {
 }
 
 @Composable
-fun GreetingTextSection(
-    modifier: Modifier = Modifier,
-    userName: String = "",
-    menuIcon: Int = R.drawable.menu,
-    speechIcon: Int = R.drawable.microphone,
-    onMenuIconClicked: () -> Unit,
-    onSpeechIconClicked: () -> Unit
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(15.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row {
-            Icon(
-                modifier = Modifier
-                    .padding(end = 12.dp)
-                    .clickable { onMenuIconClicked() },
-                painter = painterResource(id = menuIcon),
-                contentDescription = "menu",
-                tint = blue
-            )
-            Text(text = "Hi $userName, ", style = DefaultTextStyle(fontWeight = FontWeight.Bold))
-            Text(text = "Good Midnight", style = DefaultTextStyle())
-        }
-        Icon(
-            painter = painterResource(id = speechIcon),
-            contentDescription = "speechIcon",
-            Modifier
-                .size(24.dp)
-                .clickable { onSpeechIconClicked() },
-            tint = blue
-        )
-    }
-}
-
-
-
-@Composable
 fun FeatureSection(features: List<Feature>, onFeatureItemClicked: (Feature) -> Unit) {
-    LazyVerticalGrid(modifier = Modifier.height(150.dp), columns = GridCells . Fixed (2), content = {
+    LazyVerticalGrid(modifier = Modifier.height(150.dp), columns = GridCells.Fixed(2), content = {
         items(features.size) {
             FeatureItem(
                 title = features[it].title,
