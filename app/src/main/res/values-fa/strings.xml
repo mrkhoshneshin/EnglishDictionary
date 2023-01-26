@@ -7,4 +7,7 @@
     <string name="text">English texts for beginners to practice reading and comprehension online and for free. Practicing your comprehension of written English will both improve your vocabulary and understanding of grammar and word order. The texts below are designed to help you develop while giving you an instant evaluation of your progress.</string>
     <string name="expert_dictionary">دیکشنری تخصصی</string>
     <string name="materials_and_metallurgy_engineers">مهندسین مواد و متالوژی</string>
+    <string name="talkNow">حالا می توانید صحبت کنید</string>
+    <string name="stopRecognition">اتمام صحبت</string>
+    <string name="you_can_not_use_mic_feature">دسترسی میکروفون داده نشد!</string>
 </resources>

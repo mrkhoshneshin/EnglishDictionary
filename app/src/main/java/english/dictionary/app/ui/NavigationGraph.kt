@@ -20,6 +20,7 @@ import english.dictionary.app.ui.bottomNavigation.Screen
 fun NavigationGraph(
     navController: NavHostController,
     startDestination: String = Screen.SplashScreen.route,
+    showShowRuntimePermission_voiceRecord: () -> Unit
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable(Screen.SplashScreen.route) {
@@ -33,12 +34,14 @@ fun NavigationGraph(
             HomeScreen(viewModel)
         }
         composable(Screen.SearchScreen.route) {
-            SearchScreen(onWordItemClicked = { navController.navigate(Screen.WordDetail.route) })
+            SearchScreen(
+                onWordItemClicked = { navController.navigate(Screen.WordDetail.route) },
+                showShowRuntimePermission_voiceRecord = { showShowRuntimePermission_voiceRecord() })
         }
         composable(Screen.ProfileScreen.route) {
             ProfileScreen()
         }
-        composable(Screen.WordDetail.route){
+        composable(Screen.WordDetail.route) {
             WordScreen()
         }
     }
