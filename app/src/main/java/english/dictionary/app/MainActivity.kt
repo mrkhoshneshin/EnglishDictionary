@@ -3,8 +3,10 @@ package english.dictionary.app
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
@@ -22,6 +24,17 @@ import english.dictionary.app.ui.theme.backgroundColor
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (!isGranted)
+                Toast.makeText(
+                    this,
+                    this.getString(R.string.you_can_not_use_mic_feature),
+                    Toast.LENGTH_LONG
+                ).show()
+        }
+
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +53,11 @@ class MainActivity : ComponentActivity() {
                             selectedIndex = selectedBottomNavigationItemIndex,
                             onSelectChanged = { selectedBottomNavigationItemIndex = it })
                     }) {
-                    NavigationGraph(navController)
+                    NavigationGraph(
+                        navController,
+                        showShowRuntimePermission_voiceRecord = {
+                            requestPermissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
+                        })
                 }
             }
         }
