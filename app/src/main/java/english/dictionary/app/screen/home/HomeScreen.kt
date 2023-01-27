@@ -34,6 +34,7 @@ import english.dictionary.app.ui.theme.blue
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
     var searchBoxState by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())

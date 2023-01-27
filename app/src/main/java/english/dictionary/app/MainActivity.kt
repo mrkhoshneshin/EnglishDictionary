@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                         navController,
                         showShowRuntimePermission_voiceRecord = {
                             requestPermissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
-                        })
+                        }, onBackHandledToHome = { selectedBottomNavigationItemIndex = 0 })
                 }
             }
         }
