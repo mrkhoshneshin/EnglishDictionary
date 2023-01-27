@@ -9,4 +9,5 @@
     <string name="talkNow">Talk now</string>
     <string name="stopRecognition">Stop recognition</string>
     <string name="you_can_not_use_mic_feature">Sorry we can not record your voice because of permission</string>
+    <string name="listening">Listening...</string>
 </resources>
