@@ -10,4 +10,5 @@
     <string name="talkNow">حالا می توانید صحبت کنید</string>
     <string name="stopRecognition">اتمام صحبت</string>
     <string name="you_can_not_use_mic_feature">دسترسی میکروفون داده نشد!</string>
+    <string name="listening">درحال گوش دادن...</string>
 </resources>

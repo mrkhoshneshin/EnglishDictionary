@@ -88,4 +88,6 @@ dependencies {
     //pager
     implementation "com.google.accompanist:accompanist-pager:0.22.0-rc"
 
+    implementation "com.airbnb.android:lottie-compose:5.2.0"
+
 }

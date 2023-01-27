@@ -25,7 +25,7 @@ import english.dictionary.app.ui.theme.backgroundColor
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    val requestPermissionLauncher =
+    private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (!isGranted)
                 Toast.makeText(

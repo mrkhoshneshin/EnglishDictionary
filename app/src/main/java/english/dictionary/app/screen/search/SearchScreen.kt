@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.*
 import english.dictionary.app.R
 import english.dictionary.app.data.Word
 import english.dictionary.app.ui.common.Header
@@ -38,6 +39,7 @@ import english.dictionary.app.ui.theme.blue
 import english.dictionary.app.ui.theme.blueLight
 import english.dictionary.app.util.Alphabet
 import english.dictionary.app.util.RecognitionListener
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -47,12 +49,11 @@ fun SearchScreen(
     showShowRuntimePermission_voiceRecord: () -> Unit
 ) {
     val userName = viewModel.getUserName()
-    var textFiledValue by remember { mutableStateOf("") }
-    var clickedAlphabetic by remember { mutableStateOf("") }
+    val textFiledValue = viewModel.textFieldState.collectAsState()
+    var clickedAlphabetic = viewModel.alphabeticItemSelectedState.collectAsState()
     var recognitionStateDialog by remember { mutableStateOf(false) }
-    //What user have spoken in microphone ( speech dialog )
-    var speechText by remember { mutableStateOf("") }
-    var isSpeechListening by remember { mutableStateOf(false) }
+    var onBeginningOfSpeech by remember { mutableStateOf(false) }
+
     val context = LocalContext.current
     val words = viewModel.wordState.collectAsState().value
 
@@ -61,18 +62,19 @@ fun SearchScreen(
             .fillMaxSize()
             .padding(top = 15.dp, start = 15.dp, end = 15.dp, bottom = 56.dp)
     ) {
-        if (recognitionStateDialog)
+        if (recognitionStateDialog) {
             RecognitionDialog(
-                onDialogDismissed = { },
-                onSpeechIconClicked = {
-                },
-                speechText = speechText,
-                onStopRecognitionClicked = { text ->
+                onDialogDismissed = {
                     stopRecognition(context)
-                    textFiledValue = text
                     recognitionStateDialog = false
-                }
+                },
+                onSpeechIconClicked = {},
+                onBeginningOfSpeech = onBeginningOfSpeech,
+                speechText = if (onBeginningOfSpeech) stringResource(id = R.string.listening) else stringResource(
+                    id = R.string.talkNow
+                )
             )
+        }
 
         Header(
             headerTitle = "Hi $userName, Good midnight",
@@ -86,15 +88,21 @@ fun SearchScreen(
                 recognitionStateDialog = true
                 startRecognition(
                     context,
-                    speechText = { speechText = it },
+                    speechText = {
+                        stopRecognition(context)
+                        viewModel.updateTextFieldValue(it)
+                        onBeginningOfSpeech = false
+                        recognitionStateDialog = false
+                    },
+                    onBeginningOfSpeech = { onBeginningOfSpeech = true }
                 )
             },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         SearchBox(
-            textFieldValue = textFiledValue,
+            textFieldValue = textFiledValue.value,
             onTextFieldTextChanged = {
-                textFiledValue = it
+                viewModel.updateTextFieldValue(it)
                 viewModel.onTextFieldTextChanged(it)
             },
             onSearchIconClicked = { /*TODO*/ }) {
@@ -110,8 +118,8 @@ fun SearchScreen(
             AlphabeticSection(
                 onCharacterItemChanged = {
                     viewModel.onAlphabeticCharItemClicked(it)
-                    clickedAlphabetic = it
-                }, selectedChar = clickedAlphabetic
+                    viewModel.updateAlphabeticValue(it)
+                }, selectedChar = clickedAlphabetic.value
             )
         }
     }
@@ -131,8 +139,8 @@ private fun requestPermission(context: Context, shouldShowRuntimePermission: () 
 private fun startRecognition(
     context: Context,
     speechText: (String) -> Unit,
-
-    ) {
+    onBeginningOfSpeech: () -> Unit
+) {
     val recognizer = SpeechRecognizer.createSpeechRecognizer(context)
     val recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -146,6 +154,8 @@ private fun startRecognition(
                 speechText(transcribedText)
             }
         }
+
+        override fun onReadyForSpeech(params: Bundle?) = onBeginningOfSpeech()
     })
 
 }
@@ -159,9 +169,14 @@ private fun stopRecognition(context: Context) {
 fun RecognitionDialog(
     onDialogDismissed: () -> Unit,
     onSpeechIconClicked: () -> Unit,
-    onStopRecognitionClicked: (String) -> Unit,
-    speechText: String = ""
+    speechText: String = "",
+    onBeginningOfSpeech: Boolean
 ) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.equalizer))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
 
     Dialog(onDismissRequest = { onDialogDismissed() }) {
         Box(
@@ -172,7 +187,10 @@ fun RecognitionDialog(
                 .background(Color.White)
                 .height(300.dp)
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(12.dp)
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.microphone),
                     contentDescription = "speechIcon",
@@ -180,33 +198,22 @@ fun RecognitionDialog(
                         .size(60.dp)
                         .clickable { onSpeechIconClicked() }
                 )
+                if (onBeginningOfSpeech)
+                    LottieAnimation(
+                        composition = composition,
+                        progress = { progress },
+                        modifier = Modifier
+                            .size(100.dp)
+                            .absolutePadding(top = 12.dp, bottom = 12.dp)
+                    )
                 Text(
                     modifier = Modifier.padding(top = 16.dp),
                     text = speechText.ifEmpty { "..." },
-                    style = DefaultTextStyle()
+                    style = DefaultTextStyle(fontSize = MaterialTheme.typography.body1.fontSize)
                 )
-                Button(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(blue),
-                    onClick = { onStopRecognitionClicked(speechText) }) {
-                    Text(
-                        text = stringResource(id = R.string.stopRecognition),
-                        style = DefaultTextStyle(color = Color.White)
-                    )
-                }
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun RecognitionDialogPreview() {
-    RecognitionDialog(
-        onDialogDismissed = { /*TODO*/ },
-        onStopRecognitionClicked = {},
-        onSpeechIconClicked = {})
 }
 
 @Composable
