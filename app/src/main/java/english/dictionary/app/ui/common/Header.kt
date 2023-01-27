@@ -23,7 +23,7 @@ fun Header(
     modifier: Modifier = Modifier,
     headerTitle: String,
     leftIcon: Int,
-    rightIcon: Int,
+    rightIcon: Int?,
     onLeftIconClicked: () -> Unit,
     onRightIconClicked: () -> Unit
 ) {
@@ -42,12 +42,13 @@ fun Header(
             )
             Text(text = headerTitle, style = DefaultTextStyle(fontWeight = FontWeight.Bold))
         }
-        Icon(
-            modifier = Modifier.clickable { onRightIconClicked() },
-            painter = painterResource(id = rightIcon),
-            contentDescription = "rightIcon",
-            tint = blue
-        )
+        if (rightIcon != null)
+            Icon(
+                modifier = Modifier.clickable { onRightIconClicked() },
+                painter = painterResource(id = rightIcon),
+                contentDescription = "rightIcon",
+                tint = blue
+            )
     }
 }
 

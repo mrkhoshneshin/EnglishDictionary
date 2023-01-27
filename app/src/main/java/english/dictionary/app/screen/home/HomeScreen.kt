@@ -47,7 +47,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 viewModel.getUserName().collectAsState(initial = "").value
             }, Good midnight",
             leftIcon = R.drawable.menu,
-            rightIcon = R.drawable.microphone,
+            rightIcon = null,
             onLeftIconClicked = {},
             onRightIconClicked = {}
         )
@@ -138,7 +138,10 @@ fun UsersListSection(
             TextButton(onClick = { onShowMoreButtonClicked() }, shape = RoundedCornerShape(16.dp)) {
                 Text(
                     text = seeMoreButtonText,
-                    style = DefaultTextStyle(fontSize = MaterialTheme.typography.body2.fontSize)
+                    style = DefaultTextStyle(
+                        fontSize = MaterialTheme.typography.body2.fontSize,
+                        color = blue
+                    )
                 )
             }
         }
@@ -149,5 +152,13 @@ fun UsersListSection(
                 UsersItem()
             }
         }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun ListPreview(viewModel: HomeViewModel = hiltViewModel()) {
+    UsersListSection(users = viewModel.getUsers()) {
+
     }
 }

@@ -39,7 +39,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
         Header(modifier = Modifier.padding(bottom = 12.dp),
             headerTitle = "Profile",
             leftIcon = R.drawable.menu,
-            rightIcon = R.drawable.microphone,
+            rightIcon = null,
             onLeftIconClicked = {},
             onRightIconClicked = {})
         UserInformationSection(viewModel.getUser())
@@ -58,7 +58,7 @@ fun UserInformationSection(
             .fillMaxWidth()
             .padding(bottom = 15.dp)
     ) {
-        UsersItem()
+        UsersItem(secondImage = null)
         Column {
             TextWithIcon(
                 title = stringResource(id = R.string.fullName),
