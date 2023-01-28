@@ -12,7 +12,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -33,13 +32,12 @@ import com.airbnb.lottie.compose.*
 import english.dictionary.app.R
 import english.dictionary.app.data.Word
 import english.dictionary.app.ui.common.Header
-import english.dictionary.app.ui.common.SearchBox
+import english.dictionary.app.ui.common.CustomTextField
 import english.dictionary.app.ui.theme.DefaultTextStyle
 import english.dictionary.app.ui.theme.blue
 import english.dictionary.app.ui.theme.blueLight
 import english.dictionary.app.util.Alphabet
 import english.dictionary.app.util.RecognitionListener
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -99,7 +97,7 @@ fun SearchScreen(
             },
             modifier = Modifier.padding(bottom = 12.dp)
         )
-        SearchBox(
+        CustomTextField(
             textFieldValue = textFiledValue.value,
             onTextFieldTextChanged = {
                 viewModel.updateTextFieldValue(it)

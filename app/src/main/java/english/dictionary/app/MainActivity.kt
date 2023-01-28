@@ -21,6 +21,9 @@ import english.dictionary.app.ui.NavigationGraph
 import english.dictionary.app.ui.bottomNavigation.BottomNavigation
 import english.dictionary.app.ui.theme.EnglishDictionaryTheme
 import english.dictionary.app.ui.theme.backgroundColor
+import english.dictionary.app.util.AppSettings
+import english.dictionary.app.util.dataStore
+import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -38,6 +41,10 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        dataStore.data.map {
+            AppSettings.isFirstEnter = it[IS_FIRST_ENTER] ?: true
+        }
 
         setContent {
             val navController = rememberNavController()

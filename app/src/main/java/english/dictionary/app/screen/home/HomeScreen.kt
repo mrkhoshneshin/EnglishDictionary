@@ -11,8 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,42 +23,43 @@ import english.dictionary.app.R
 import english.dictionary.app.data.Feature
 import english.dictionary.app.data.User
 import english.dictionary.app.ui.common.Header
-import english.dictionary.app.ui.common.SearchBox
+import english.dictionary.app.ui.common.CustomTextField
 import english.dictionary.app.ui.common.UsersItem
 import english.dictionary.app.ui.theme.DefaultTextStyle
 import english.dictionary.app.ui.theme.blue
+import english.dictionary.app.util.AppSettings
 
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
     var searchBoxState by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 70.dp)
-            .fillMaxSize()
-    ) {
-        Header(
-            modifier = Modifier.padding(15.dp),
-            headerTitle = "Hi ${
-                viewModel.getUserName().collectAsState(initial = "").value
-            }, Good midnight",
-            leftIcon = R.drawable.menu,
-            rightIcon = null,
-            onLeftIconClicked = {},
-            onRightIconClicked = {}
-        )
-        //TODO add real list here
-        ViewPagerSlider()
-        SearchBox(
-            modifier = Modifier.padding(15.dp), textFieldValue = searchBoxState,
-            onTextFieldTextChanged = { searchBoxState = it },
-            onSearchIconClicked = { /*TODO*/ }) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 70.dp)
+                .fillMaxSize()
+        ) {
+            Header(
+                modifier = Modifier.padding(15.dp),
+                headerTitle = "Hi ${
+                    viewModel.getUserName().collectAsState(initial = "").value
+                }, Good midnight",
+                leftIcon = R.drawable.menu,
+                rightIcon = null,
+                onLeftIconClicked = {},
+                onRightIconClicked = {}
+            )
+            //TODO add real list here
+            ViewPagerSlider()
+            CustomTextField(
+                modifier = Modifier.padding(15.dp), textFieldValue = searchBoxState,
+                onTextFieldTextChanged = { searchBoxState = it },
+                onSearchIconClicked = { /*TODO*/ }) {
+            }
+            FeatureSection(features = viewModel.getFeatures(), onFeatureItemClicked = {})
+            UsersListSection(users = viewModel.getUsers(), onShowMoreButtonClicked = {})
         }
-        FeatureSection(features = viewModel.getFeatures(), onFeatureItemClicked = {})
-        UsersListSection(users = viewModel.getUsers(), onShowMoreButtonClicked = {})
-    }
 }
 
 @OptIn(ExperimentalPagerApi::class)
