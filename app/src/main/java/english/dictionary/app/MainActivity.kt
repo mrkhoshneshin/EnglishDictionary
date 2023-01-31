@@ -1,12 +1,12 @@
 package english.dictionary.app
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import english.dictionary.app.data.Words
 import english.dictionary.app.ui.NavigationGraph
 import english.dictionary.app.ui.bottomNavigation.BottomNavigation
 import english.dictionary.app.ui.theme.EnglishDictionaryTheme
@@ -27,6 +28,8 @@ import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel : MainViewModel by viewModels()
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -41,6 +44,9 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val jsonString = viewModel.getJsonStringFromAsset(this)
+        val words = viewModel.convertJsonStringToList(jsonString)
+        Words.words = words
 
         dataStore.data.map {
             AppSettings.isFirstEnter = it[IS_FIRST_ENTER] ?: true
