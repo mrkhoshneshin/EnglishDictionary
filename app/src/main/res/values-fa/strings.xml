@@ -15,4 +15,6 @@
     <string name="nameTextFieldLable">مثال: علیرضا</string>
     <string name="save">ذخیره</string>
     <string name="textFieldIsEmpty_cution">لطفا نام خود را وارد کنید</string>
+    <string name="history">تاریخچه</string>
+    <string name="seeMore">مشاهده همه</string>
 </resources>

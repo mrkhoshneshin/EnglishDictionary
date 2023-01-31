@@ -14,4 +14,6 @@
     <string name="nameTextFieldLable">ex: John</string>
     <string name="save">Save</string>
     <string name="textFieldIsEmpty_cution">Please enter your name</string>
+    <string name="history">History</string>
+    <string name="seeMore">See more</string>
 </resources>
