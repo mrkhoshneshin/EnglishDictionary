@@ -1,16 +1,12 @@
 package english.dictionary.app
 
 import android.app.Application
-import android.util.Log
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import com.google.gson.Gson
 import dagger.hilt.android.HiltAndroidApp
-import english.dictionary.app.data.Word
-import english.dictionary.app.data.Words
-import java.io.IOException
+import english.dictionary.app.db.AppDatabase
 
 val IS_FIRST_ENTER = booleanPreferencesKey("isFirstEnter")
-
+val DATA_BASE_HAS_DATA = booleanPreferencesKey("database_has_data")
 @HiltAndroidApp
 class App() : Application() {
 }

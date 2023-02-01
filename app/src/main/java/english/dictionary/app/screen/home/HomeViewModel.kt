@@ -61,11 +61,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     fun getHistoryWords(): List<Word> {
         return listOf(
-            Word("Abstract", "انتزاعی"),
-            Word("Abstract", "انتزاعی"),
-            Word("Abstract", "انتزاعی"),
-            Word("Abstract", "انتزاعی"),
-            Word("Abstract", "انتزاعی")
+            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
+            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
+            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
+            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
+            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
+            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
         )
     }
 }

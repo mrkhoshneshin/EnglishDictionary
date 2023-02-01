@@ -17,4 +17,5 @@
     <string name="textFieldIsEmpty_cution">لطفا نام خود را وارد کنید</string>
     <string name="history">تاریخچه</string>
     <string name="seeMore">مشاهده همه</string>
+    <string name="notFound">تعریف نشده</string>
 </resources>

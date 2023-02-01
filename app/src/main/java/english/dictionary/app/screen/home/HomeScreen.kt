@@ -119,13 +119,16 @@ fun HistoryItem(
         Column(modifier = Modifier.padding(6.dp)) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = word.englishTitle,
+                text = if (word.englishTitle.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.englishTitle,
                 style = DefaultTextStyle(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                modifier = Modifier.fillMaxWidth(), text = word.persianTitle,
+                modifier = Modifier.fillMaxWidth(),
+                text = if (word.persianTitle.isNullOrEmpty()) stringResource(
+                    id = R.string.notFound
+                ) else word.persianTitle,
                 style = DefaultTextStyle(),
                 textAlign = TextAlign.End,
                 maxLines = 1,

@@ -10,25 +10,25 @@ data class Word(
 
     @ColumnInfo("word_id")
     @PrimaryKey(autoGenerate = true)
-    var id : Int,
+    var id : Int = 0,
 
     @ColumnInfo("english_title")
     @SerializedName("word")
-    val englishTitle: String = "",
+    val englishTitle: String? = "",
 
     @ColumnInfo("persian_title")
     @SerializedName("technical meaning")
-    val persianTitle: String = "",
+    val persianTitle: String? = "",
 
     @ColumnInfo("desc_en")
     @SerializedName("desc-en")
-    val englishDescription: String = "",
+    val englishDescription: String? = "",
 
     @ColumnInfo("desc_fa")
     @SerializedName("desc-fa")
-    val persianDescription: String = "",
+    val persianDescription: String? = "",
 
     @ColumnInfo("picture")
     @SerializedName("Picture")
-    val image: String = "",
+    val image: String? = "",
 )

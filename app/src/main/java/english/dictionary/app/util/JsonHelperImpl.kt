@@ -4,16 +4,16 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import english.dictionary.app.data.Word
-import english.dictionary.app.data.Words
 import java.io.IOException
+import javax.inject.Inject
 
-class JsonHelperImpl(private val gson: Gson = Gson()) : JsonHelper{
+class JsonHelperImpl (private val gson: Gson = Gson()) : JsonHelper {
     private val TAG = "JsonHelperImpl"
 
-    override fun getJsonStringFromAsset(context: Context): String {
+    override fun getJsonStringFromAsset(context: Context, fileName: String): String {
         var jsonString = ""
         try {
-            val inputStream = context.assets.open("vocab.json")
+            val inputStream = context.assets.open(fileName)
             inputStream.bufferedReader().use {
                 jsonString = it.readText()
             }
@@ -25,7 +25,6 @@ class JsonHelperImpl(private val gson: Gson = Gson()) : JsonHelper{
 
     override fun convertJsonStringToList(jsonString: String): List<Word> {
         val list = gson.fromJson(jsonString, Array<Word>::class.java).asList()
-        Log.i(TAG, "convertJsonStringToList: ${Words.words}")
         return list
     }
 
