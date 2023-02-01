@@ -17,4 +17,5 @@
     <string name="history">History</string>
     <string name="seeMore">See more</string>
     <string name="notFound">Not found</string>
+    <string name="networkConnectionNeeded">Network connection needed</string>
 </resources>

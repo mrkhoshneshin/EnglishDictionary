@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
+import english.dictionary.app.screen.BooksScreen
 import english.dictionary.app.screen.home.HomeScreen
 import english.dictionary.app.screen.home.HomeViewModel
 import english.dictionary.app.screen.input_information.GetUserInformationScreen
@@ -40,7 +41,8 @@ fun NavigationGraph(
         composable(Screen.HomeScreen.route) {
             val viewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(
-                viewModel
+                viewModel,
+                onProfileIconClicked = { navController.navigate(Screen.ProfileScreen.route) }
             )
         }
         composable(Screen.SearchScreen.route) {
@@ -71,6 +73,10 @@ fun NavigationGraph(
         }
         composable(Screen.WordDetail.route) {
             WordScreen()
+        }
+
+        composable(Screen.BooksScreen.route){
+            BooksScreen()
         }
     }
 }

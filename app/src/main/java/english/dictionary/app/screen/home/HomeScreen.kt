@@ -36,7 +36,7 @@ import english.dictionary.app.util.AppSettings
 
 @ExperimentalPagerApi
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(viewModel: HomeViewModel, onProfileIconClicked: () -> Unit) {
     var searchBoxState = viewModel.textFieldValue.collectAsState()
 
     Column(
@@ -51,9 +51,9 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 viewModel.getUserName().collectAsState(initial = "").value
             }, Good midnight",
             leftIcon = R.drawable.menu,
-            rightIcon = null,
+            rightIcon = R.drawable.user,
             onLeftIconClicked = {},
-            onRightIconClicked = {}
+            onRightIconClicked = { onProfileIconClicked() }
         )
         //TODO add real list here
         ViewPagerSlider()
@@ -72,7 +72,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
 @Composable
 @Preview(showBackground = true)
 fun HomeScreenPreview() {
-    HomeScreen(viewModel = hiltViewModel())
+    HomeScreen(viewModel = hiltViewModel(), onProfileIconClicked = {})
 }
 
 @Composable

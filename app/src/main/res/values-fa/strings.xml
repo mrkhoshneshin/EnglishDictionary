@@ -18,4 +18,5 @@
     <string name="history">تاریخچه</string>
     <string name="seeMore">مشاهده همه</string>
     <string name="notFound">تعریف نشده</string>
+    <string name="networkConnectionNeeded">دسترسی به اینترنت مورد نیاز است</string>
 </resources>
