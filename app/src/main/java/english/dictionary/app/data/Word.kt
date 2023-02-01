@@ -12,6 +12,9 @@ data class Word(
     @PrimaryKey(autoGenerate = true)
     var id : Int = 0,
 
+    @ColumnInfo("is_favorite")
+    var isFavorite: Boolean = false,
+
     @ColumnInfo("english_title")
     @SerializedName("word")
     val englishTitle: String? = "",

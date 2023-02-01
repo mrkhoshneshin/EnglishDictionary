@@ -1,6 +1,7 @@
 package english.dictionary.app
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -46,6 +47,12 @@ class MainViewModel @Inject constructor(private val jsonHelper: JsonHelper,priva
         }
     }
 
+    fun getFirstWordFromDatabase(){
+        viewModelScope.launch {
+            if(wordDao.getFirst() != null)
+                _databaseHasData.value = true
+        }
+    }
     fun readDataFromDataStore(dataStore: DataStore<Preferences>, key: Preferences.Key<Boolean>){
         viewModelScope.launch {
             dataStore.data.collectLatest{preferences ->

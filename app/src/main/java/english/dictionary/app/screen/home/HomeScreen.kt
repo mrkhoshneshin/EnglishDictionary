@@ -36,7 +36,7 @@ import english.dictionary.app.util.AppSettings
 
 @ExperimentalPagerApi
 @Composable
-fun HomeScreen(viewModel: HomeViewModel, onProfileIconClicked: () -> Unit) {
+fun HomeScreen(viewModel: HomeViewModel, onProfileIconClicked: () -> Unit, onFeatureItemClicked: (Feature) -> Unit) {
     var searchBoxState = viewModel.textFieldValue.collectAsState()
 
     Column(
@@ -62,7 +62,7 @@ fun HomeScreen(viewModel: HomeViewModel, onProfileIconClicked: () -> Unit) {
             onTextFieldTextChanged = { viewModel.updateTextFieldValue(it) },
             onSearchIconClicked = { /*TODO*/ }) {
         }
-        FeatureSection(features = viewModel.getFeatures(), onFeatureItemClicked = {})
+        FeatureSection(features = viewModel.getFeatures(), onFeatureItemClicked = { onFeatureItemClicked(it)})
         // UsersListSection(users = viewModel.getUsers(), onShowMoreButtonClicked = {})
         SearchHistorySection(words = viewModel.getHistoryWords(), onWordItemClicked = {})
     }
@@ -72,7 +72,7 @@ fun HomeScreen(viewModel: HomeViewModel, onProfileIconClicked: () -> Unit) {
 @Composable
 @Preview(showBackground = true)
 fun HomeScreenPreview() {
-    HomeScreen(viewModel = hiltViewModel(), onProfileIconClicked = {})
+    HomeScreen(viewModel = hiltViewModel(), onProfileIconClicked = {}, onFeatureItemClicked = {})
 }
 
 @Composable

@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import english.dictionary.app.R
+import english.dictionary.app.data.WordDetailData
 import english.dictionary.app.ui.common.Header
 import english.dictionary.app.ui.theme.DefaultTextStyle
 
@@ -24,6 +29,7 @@ import english.dictionary.app.ui.theme.DefaultTextStyle
 fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
     val userName = viewModel.getUserName()
     val word = viewModel.getWord()
+    var favoriteIconState by remember { mutableStateOf(WordDetailData.word.isFavorite) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,9 +39,13 @@ fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
             modifier = Modifier.padding(bottom = 32.dp),
             headerTitle = "Hi $userName, Good midnight",
             leftIcon = R.drawable.menu,
-            rightIcon = R.drawable.heart_outlined,
-            onLeftIconClicked = { },
-            onRightIconClicked = {})
+            rightIcon = if (favoriteIconState) R.drawable.heart_filled else R.drawable.heart_outlined,
+            onLeftIconClicked = {},
+            onRightIconClicked = {
+                favoriteIconState = !favoriteIconState
+                WordDetailData.word.isFavorite = favoriteIconState
+                viewModel.updateWord(WordDetailData.word)
+            })
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = if (word.englishTitle.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.englishTitle,

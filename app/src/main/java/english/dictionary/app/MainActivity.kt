@@ -2,6 +2,7 @@ package english.dictionary.app
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,8 +22,10 @@ import english.dictionary.app.ui.theme.EnglishDictionaryTheme
 import english.dictionary.app.ui.theme.backgroundColor
 import english.dictionary.app.util.AppSettings
 import english.dictionary.app.util.dataStore
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -43,14 +46,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.readDataFromDataStore(dataStore, DATA_BASE_HAS_DATA)
+        viewModel.getFirstWordFromDatabase()
 
         setContent {
-            val databaseHasData = viewModel.databaseHasData.collectAsState()
-            if (!databaseHasData.value) {
-                viewModel.insertWordsToDatabaseFromJson(this, "vocab.json")
-                viewModel.updateDataStore(dataStore, DATA_BASE_HAS_DATA,true)
-            }
+            val databaseHasData = viewModel.databaseHasData.collectAsState().value
+            val scope = rememberCoroutineScope()
+
+            LaunchedEffect(key1 = true, block = {
+                scope.launch {
+                    delay(2000L)
+                    if (!databaseHasData) {
+                        viewModel.insertWordsToDatabaseFromJson(this@MainActivity, "vocab.json")
+                    }
+                }
+            })
+
 
             val navController = rememberNavController()
             var selectedBottomNavigationItemIndex by remember { mutableStateOf(0) }

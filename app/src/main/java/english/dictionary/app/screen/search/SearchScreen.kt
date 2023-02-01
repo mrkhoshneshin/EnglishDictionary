@@ -24,8 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
@@ -205,14 +203,15 @@ fun RecognitionDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(12.dp)
             ) {
-                if(!onBeginningOfSpeech)
-                Icon(
-                    painter = painterResource(id = R.drawable.microphone),
-                    contentDescription = "speechIcon",
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clickable { onSpeechIconClicked() }
-                )
+                if(!onBeginningOfSpeech){
+                    Icon(
+                        painter = painterResource(id = R.drawable.microphone),
+                        contentDescription = "speechIcon",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clickable { onSpeechIconClicked() }
+                    )
+                }
                 if (onBeginningOfSpeech)
                     LottieAnimation(
                         composition = composition,
@@ -225,16 +224,6 @@ fun RecognitionDialog(
                     modifier = Modifier.padding(top = 16.dp),
                     text = speechText.ifEmpty { "..." },
                     style = DefaultTextStyle(fontSize = MaterialTheme.typography.body1.fontSize)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(id = R.string.networkConnectionNeeded),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    style = DefaultTextStyle(
-                        fontSize = MaterialTheme.typography.body2.fontSize,
-                        color = Color.LightGray
-                    )
                 )
             }
         }

@@ -10,6 +10,7 @@ const val SEARCH = "search"
 const val WORD_DETAIL = "word_detail"
 const val GET_USER_INFORMATION = "getUserInformation"
 const val BOOKS = "books"
+const val FAVORITE_WORDS = "favorite_words"
 
 /**
  * @param route Guide for navHost that which destination must navigate
@@ -41,7 +42,7 @@ sealed class Screen(
         index = 1
     )
 
-    object BooksScreen: Screen(
+    object BooksScreen : Screen(
         BOOKS,
         R.drawable.book_fill,
         R.drawable.book_outline,
@@ -57,4 +58,11 @@ sealed class Screen(
             "Profile",
             index = -1
         )
+
+    object FavoriteWords : Screen(
+        FAVORITE_WORDS,
+        -1,
+        -1,
+        "favorite words",
+    )
 }
