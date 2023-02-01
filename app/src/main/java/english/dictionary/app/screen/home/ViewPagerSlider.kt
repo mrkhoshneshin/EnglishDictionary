@@ -1,6 +1,7 @@
 package english.dictionary.app.screen.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -14,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 
@@ -35,13 +37,14 @@ fun ViewPagerSlider(viewModel: HomeViewModel = hiltViewModel()) {
     Column(modifier = Modifier
         .fillMaxSize()
         .size(200.dp)) {
+
         HorizontalPager(
             count = viewModel.getSliders().size,
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f)
                 .padding(0.dp, 12.dp, 0.dp, 12.dp),
-            state = pagerState
+            state = pagerState,
         ) { page ->
             Card(
                 modifier = Modifier

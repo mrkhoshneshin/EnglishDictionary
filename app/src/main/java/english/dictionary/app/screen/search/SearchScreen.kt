@@ -11,8 +11,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -32,14 +32,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.*
 import english.dictionary.app.R
 import english.dictionary.app.data.Word
+import english.dictionary.app.data.WordDetailData
 import english.dictionary.app.ui.common.Header
-import english.dictionary.app.ui.common.SearchBox
+import english.dictionary.app.ui.common.CustomTextField
 import english.dictionary.app.ui.theme.DefaultTextStyle
 import english.dictionary.app.ui.theme.blue
 import english.dictionary.app.ui.theme.blueLight
 import english.dictionary.app.util.Alphabet
 import english.dictionary.app.util.RecognitionListener
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -99,14 +100,18 @@ fun SearchScreen(
             },
             modifier = Modifier.padding(bottom = 12.dp)
         )
-        SearchBox(
+        CustomTextField(
             textFieldValue = textFiledValue.value,
             onTextFieldTextChanged = {
                 viewModel.updateTextFieldValue(it)
-                viewModel.onTextFieldTextChanged(it)
             },
             onSearchIconClicked = { /*TODO*/ }) {
         }
+        Text(
+            text = words.size.toString(), modifier = Modifier
+                .padding(top = 12.dp)
+                .fillMaxWidth(), color = blue
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -114,7 +119,15 @@ fun SearchScreen(
         ) {
             WordsList(
                 words = words,
-                onWordItemClicked = { onWordItemClicked(it) })
+                onWordItemClicked = {
+                    onWordItemClicked(it)
+                    WordDetailData.word = it
+                },
+                scrollPosition = if (clickedAlphabetic.value.isEmpty()) null else words.indexOfFirst {
+                    it.englishTitle?.startsWith(
+                        clickedAlphabetic.value
+                    ) ?: false
+                })
             AlphabeticSection(
                 onCharacterItemChanged = {
                     viewModel.onAlphabeticCharItemClicked(it)
@@ -254,30 +267,31 @@ fun AlphabeticSection(
 fun WordsList(
     modifier: Modifier = Modifier,
     words: List<Word>,
-    onWordItemClicked: (Word) -> Unit
+    onWordItemClicked: (Word) -> Unit,
+    scrollPosition: Int?
 ) {
-    LazyColumn(modifier = modifier.width(300.dp)) {
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
+    LazyColumn(modifier = modifier.width(300.dp), state = listState) {
         items(words.size) {
-            Text(
-                modifier = modifier
-                    .padding(3.dp)
-                    .clickable { onWordItemClicked(words[it]) },
-                text = words[it].englishDescription,
-                style = DefaultTextStyle(fontSize = MaterialTheme.typography.h6.fontSize),
-            )
+            (if (words[it].englishTitle.isNullOrEmpty()) stringResource(id = R.string.notFound) else words[it].englishTitle)?.let { it1 ->
+                Text(
+                    modifier = modifier
+                        .padding(3.dp)
+                        .clickable { onWordItemClicked(words[it]) },
+                    text = it1,
+                    style = DefaultTextStyle(fontSize = MaterialTheme.typography.h6.fontSize),
+                )
+            }
         }
     }
-}
 
-@Composable
-@Preview(showBackground = true)
-fun WordListPreview(viewModel: SearchViewModel = hiltViewModel()) {
-    val words = viewModel.wordState.collectAsState().value
-    WordsList(words = words, onWordItemClicked = {})
-}
-
-@Composable
-@Preview(showBackground = true)
-fun SearchScreenPreview() {
-    SearchScreen(onWordItemClicked = {}, showShowRuntimePermission_voiceRecord = {})
+    scrollPosition?.let {
+        scope.launch {
+            if(it >= 0){
+                listState.scrollToItem(it)
+            }
+        }
+    }
 }

@@ -10,4 +10,11 @@
     <string name="stopRecognition">Stop recognition</string>
     <string name="you_can_not_use_mic_feature">Sorry we can not record your voice because of permission</string>
     <string name="listening">Listening...</string>
+    <string name="enterYourName">Enter your name</string>
+    <string name="nameTextFieldLable">ex: John</string>
+    <string name="save">Save</string>
+    <string name="textFieldIsEmpty_cution">Please enter your name</string>
+    <string name="history">History</string>
+    <string name="seeMore">See more</string>
+    <string name="notFound">Not found</string>
 </resources>

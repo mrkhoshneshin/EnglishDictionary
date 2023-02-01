@@ -88,6 +88,23 @@ dependencies {
     //pager
     implementation "com.google.accompanist:accompanist-pager:0.22.0-rc"
 
+    //Lottie animation
     implementation "com.airbnb.android:lottie-compose:5.2.0"
+
+    //constraint layout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
+    //Data store
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    //Room
+    def room_version = "2.5.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:2.5.0"
 
 }

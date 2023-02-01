@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,23 +38,24 @@ fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
             onRightIconClicked = {})
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = word.englishTitle,
+            text = if (word.englishTitle.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.englishTitle,
             style = DefaultTextStyle(fontWeight = FontWeight.Bold)
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = word.englishDescription,
+            text = if (word.englishDescription.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.englishDescription,
             style = DefaultTextStyle()
         )
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = word.persianTitle,
+            text = if (word.persianTitle.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.persianTitle,
             style = DefaultTextStyle(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.End
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = word.persianDescription,
+            text = if (word.persianDescription.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.persianDescription,
             style = DefaultTextStyle(),
             textAlign = TextAlign.End
         )

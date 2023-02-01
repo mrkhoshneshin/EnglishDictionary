@@ -11,4 +11,11 @@
     <string name="stopRecognition">اتمام صحبت</string>
     <string name="you_can_not_use_mic_feature">دسترسی میکروفون داده نشد!</string>
     <string name="listening">درحال گوش دادن...</string>
+    <string name="enterYourName">نام خود را وارد کنید</string>
+    <string name="nameTextFieldLable">مثال: علیرضا</string>
+    <string name="save">ذخیره</string>
+    <string name="textFieldIsEmpty_cution">لطفا نام خود را وارد کنید</string>
+    <string name="history">تاریخچه</string>
+    <string name="seeMore">مشاهده همه</string>
+    <string name="notFound">تعریف نشده</string>
 </resources>
