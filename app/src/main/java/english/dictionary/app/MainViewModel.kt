@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val jsonHelper: JsonHelper,private val wordDao: WordDao): ViewModel() {
 
-    private val _databaseHasData = MutableStateFlow(value = false)
-    val databaseHasData = _databaseHasData.asStateFlow()
+    private val _databaseHasData = MutableLiveData<Int>()
+
     fun insertWordsToDatabaseFromJson(context: Context, fileName : String){
         val jsonString = jsonHelper.getJsonStringFromAsset(context, fileName)
         convertJsonStringToList(jsonString = jsonString)
@@ -46,14 +48,12 @@ class MainViewModel @Inject constructor(private val jsonHelper: JsonHelper,priva
         }
     }
 
-    fun readDataFromDataStore(dataStore: DataStore<Preferences>, key: Preferences.Key<Boolean>){
+    fun databaseCountLiveData(): LiveData<Int>{
+        return _databaseHasData
+    }
+    fun getDatabaseCount(){
         viewModelScope.launch {
-            dataStore.data.collectLatest{preferences ->
-                if(preferences[key] == null)
-                    _databaseHasData.value = false
-                else
-                    _databaseHasData.value = preferences[key]!!
-            }
+            _databaseHasData.value = wordDao.getCount()
         }
     }
 }

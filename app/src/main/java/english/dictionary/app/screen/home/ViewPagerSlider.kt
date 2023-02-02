@@ -1,5 +1,7 @@
 package english.dictionary.app.screen.home
 
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.*
@@ -10,33 +12,29 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
+import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
 fun ViewPagerSlider(viewModel: HomeViewModel = hiltViewModel()) {
     val pagerState = rememberPagerState(initialPage = 0)
-//    LaunchedEffect(Unit) {
-//        while (true) {
-//            yield()
-//            delay(2000L)
-//            pagerState.animateScrollToPage(
-//                page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-//                pageOffset = 1f
-//            )
-//        }
-//    }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .size(200.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .size(200.dp)
+    ) {
 
         HorizontalPager(
             count = viewModel.getSliders().size,
@@ -45,12 +43,28 @@ fun ViewPagerSlider(viewModel: HomeViewModel = hiltViewModel()) {
                 .weight(1f)
                 .padding(0.dp, 12.dp, 0.dp, 12.dp),
             state = pagerState,
+            contentPadding = PaddingValues(end = 50.dp)
         ) { page ->
+            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 0.dp, 25.dp, 0.dp),
-                shape = RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp)
+                    .graphicsLayer {
+                        lerp(
+                            start = 0.85f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        ).also { scale ->
+                            scaleX = scale
+                            scaleY = scale
+                        }
+                    },
+                shape = RoundedCornerShape(
+                    topStart = if (pageOffset == 1.0f) 20.dp else 0.dp,
+                    bottomStart = if (pageOffset == 1.0f) 20.dp else 0.dp,
+                    topEnd = 20.dp,
+                    bottomEnd = 20.dp
+                )
             ) {
                 Box(
                     modifier = Modifier
@@ -64,4 +78,3 @@ fun ViewPagerSlider(viewModel: HomeViewModel = hiltViewModel()) {
         }
     }
 }
-

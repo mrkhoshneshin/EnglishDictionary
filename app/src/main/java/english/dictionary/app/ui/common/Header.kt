@@ -22,7 +22,7 @@ import english.dictionary.app.ui.theme.blue
 fun Header(
     modifier: Modifier = Modifier,
     headerTitle: String,
-    leftIcon: Int,
+    leftIcon: Int?,
     rightIcon: Int?,
     onLeftIconClicked: () -> Unit,
     onRightIconClicked: () -> Unit
@@ -32,14 +32,16 @@ fun Header(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row {
-            Icon(
-                painter = painterResource(id = leftIcon),
-                contentDescription = "leftIcon",
-                tint = blue,
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .clickable { onLeftIconClicked() }
-            )
+            if(leftIcon != null){
+                Icon(
+                    painter = painterResource(id = leftIcon),
+                    contentDescription = "leftIcon",
+                    tint = blue,
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .clickable { onLeftIconClicked() }
+                )
+            }
             Text(text = headerTitle, style = DefaultTextStyle(fontWeight = FontWeight.Bold))
         }
         if (rightIcon != null)

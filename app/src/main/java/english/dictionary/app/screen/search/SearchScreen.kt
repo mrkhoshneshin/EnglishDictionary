@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
@@ -204,13 +203,15 @@ fun RecognitionDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(12.dp)
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.microphone),
-                    contentDescription = "speechIcon",
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clickable { onSpeechIconClicked() }
-                )
+                if(!onBeginningOfSpeech){
+                    Icon(
+                        painter = painterResource(id = R.drawable.microphone),
+                        contentDescription = "speechIcon",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clickable { onSpeechIconClicked() }
+                    )
+                }
                 if (onBeginningOfSpeech)
                     LottieAnimation(
                         composition = composition,
@@ -289,7 +290,7 @@ fun WordsList(
 
     scrollPosition?.let {
         scope.launch {
-            if(it >= 0){
+            if (it >= 0) {
                 listState.scrollToItem(it)
             }
         }

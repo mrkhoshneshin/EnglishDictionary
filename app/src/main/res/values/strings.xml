@@ -17,4 +17,8 @@
     <string name="history">History</string>
     <string name="seeMore">See more</string>
     <string name="notFound">Not found</string>
+    <string name="networkConnectionNeeded">Network connection needed</string>
+    <string name="favorite_words">Favorite list</string>
+    <string name="emptyStateDesc">No favorite item found</string>
+    <string name="searchInFavorites">Search in favorites</string>
 </resources>

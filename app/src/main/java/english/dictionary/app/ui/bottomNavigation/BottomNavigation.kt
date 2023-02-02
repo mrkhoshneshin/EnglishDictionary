@@ -26,7 +26,7 @@ fun BottomNavigation(
         val items = listOf(
             Screen.HomeScreen,
             Screen.SearchScreen,
-            Screen.ProfileScreen
+            Screen.BooksScreen
         )
         BottomNavigation(backgroundColor = backgroundColor) {
 
