@@ -13,19 +13,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.datastore.preferences.core.edit
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import english.dictionary.app.ui.NavigationGraph
 import english.dictionary.app.ui.bottomNavigation.BottomNavigation
 import english.dictionary.app.ui.theme.EnglishDictionaryTheme
 import english.dictionary.app.ui.theme.backgroundColor
-import english.dictionary.app.util.AppSettings
-import english.dictionary.app.util.dataStore
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -46,22 +39,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getFirstWordFromDatabase()
-
+        viewModel.getDatabaseCount()
+        viewModel.databaseCountLiveData().observe(this){
+            if (it == 0) {
+                viewModel.insertWordsToDatabaseFromJson(this@MainActivity, "vocab.json")
+            }
+        }
         setContent {
-            val databaseHasData = viewModel.databaseHasData.collectAsState().value
-            val scope = rememberCoroutineScope()
-
-            LaunchedEffect(key1 = true, block = {
-                scope.launch {
-                    delay(2000L)
-                    if (!databaseHasData) {
-                        viewModel.insertWordsToDatabaseFromJson(this@MainActivity, "vocab.json")
-                    }
-                }
-            })
-
-
             val navController = rememberNavController()
             var selectedBottomNavigationItemIndex by remember { mutableStateOf(0) }
             EnglishDictionaryTheme {

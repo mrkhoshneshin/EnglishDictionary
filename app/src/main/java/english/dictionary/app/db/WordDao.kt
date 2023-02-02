@@ -14,8 +14,8 @@ interface WordDao {
 
     @Query("SELECT * FROM words WHERE english_title LIKE :query || '%'")
     suspend fun filter(query: String): List<Word>
-    @Query("SELECT * FROM words LIMIT 1")
-    suspend fun getFirst(): Word?
+    @Query("SELECT COUNT(*) FROM words")
+    suspend fun getCount(): Int
     @Insert
     suspend fun insertAll(vararg words: Word)
 

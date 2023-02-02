@@ -73,6 +73,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    implementation "androidx.compose.ui:ui-util:$compose_ui_version"
+
+
 
     //Compose view model
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
