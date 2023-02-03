@@ -35,6 +35,7 @@ import english.dictionary.app.data.WordDetailData
 import english.dictionary.app.ui.common.Header
 import english.dictionary.app.ui.common.CustomTextField
 import english.dictionary.app.ui.theme.DefaultTextStyle
+import english.dictionary.app.ui.theme.backgroundColor
 import english.dictionary.app.ui.theme.blue
 import english.dictionary.app.ui.theme.blueLight
 import english.dictionary.app.util.Alphabet
@@ -57,82 +58,81 @@ fun SearchScreen(
     val context = LocalContext.current
     val words = viewModel.wordState.collectAsState().value
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 15.dp, start = 15.dp, end = 15.dp, bottom = 56.dp)
-    ) {
-        if (recognitionStateDialog) {
-            RecognitionDialog(
-                onDialogDismissed = {
-                    stopRecognition(context)
-                    recognitionStateDialog = false
-                },
-                onSpeechIconClicked = {},
-                onBeginningOfSpeech = onBeginningOfSpeech,
-                speechText = if (onBeginningOfSpeech) stringResource(id = R.string.listening) else stringResource(
-                    id = R.string.talkNow
-                )
-            )
-        }
-
-        Header(
-            headerTitle = "Hi $userName, Good midnight",
-            leftIcon = R.drawable.menu,
-            rightIcon = R.drawable.microphone,
-            onLeftIconClicked = {},
-            onRightIconClicked = {
-                requestPermission(
-                    context,
-                    shouldShowRuntimePermission = { showShowRuntimePermission_voiceRecord() })
-                recognitionStateDialog = true
-                startRecognition(
-                    context,
-                    speechText = {
+    Box(modifier = Modifier.fillMaxSize().background(backgroundColor)){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 15.dp, start = 15.dp, end = 15.dp, bottom = 56.dp)
+        ) {
+            if (recognitionStateDialog) {
+                RecognitionDialog(
+                    onDialogDismissed = {
                         stopRecognition(context)
-                        viewModel.updateTextFieldValue(it)
-                        onBeginningOfSpeech = false
                         recognitionStateDialog = false
                     },
-                    onBeginningOfSpeech = { onBeginningOfSpeech = true }
+                    onSpeechIconClicked = {},
+                    onBeginningOfSpeech = onBeginningOfSpeech,
+                    speechText = if (onBeginningOfSpeech) stringResource(id = R.string.listening) else stringResource(
+                        id = R.string.talkNow
+                    )
                 )
-            },
-            modifier = Modifier.padding(bottom = 12.dp)
-        )
-        CustomTextField(
-            textFieldValue = textFiledValue.value,
-            onTextFieldTextChanged = {
-                viewModel.updateTextFieldValue(it)
-            },
-            onSearchIconClicked = { /*TODO*/ }) {
-        }
-        Text(
-            text = words.size.toString(), modifier = Modifier
-                .padding(top = 12.dp)
-                .fillMaxWidth(), color = blue
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 15.dp)
-        ) {
-            WordsList(
-                words = words,
-                onWordItemClicked = {
-                    onWordItemClicked(it)
-                    WordDetailData.word = it
+            }
+
+            Header(
+                headerTitle = "Hi $userName, Good midnight",
+                leftIcon = R.drawable.menu,
+                rightIcon = R.drawable.microphone,
+                onLeftIconClicked = {},
+                onRightIconClicked = {
+                    requestPermission(
+                        context,
+                        shouldShowRuntimePermission = { showShowRuntimePermission_voiceRecord() })
+                    recognitionStateDialog = true
+                    startRecognition(
+                        context,
+                        speechText = {
+                            stopRecognition(context)
+                            viewModel.updateTextFieldValue(it)
+                            onBeginningOfSpeech = false
+                            recognitionStateDialog = false
+                        },
+                        onBeginningOfSpeech = { onBeginningOfSpeech = true }
+                    )
                 },
-                scrollPosition = if (clickedAlphabetic.value.isEmpty()) null else words.indexOfFirst {
-                    it.englishTitle?.startsWith(
-                        clickedAlphabetic.value
-                    ) ?: false
-                })
-            AlphabeticSection(
-                onCharacterItemChanged = {
-                    viewModel.onAlphabeticCharItemClicked(it)
-                    viewModel.updateAlphabeticValue(it)
-                }, selectedChar = clickedAlphabetic.value
+                modifier = Modifier.padding(bottom = 12.dp)
             )
+            CustomTextField(
+                textFieldValue = textFiledValue.value,
+                onTextFieldTextChanged = {
+                    viewModel.updateTextFieldValue(it)
+                },
+                onSearchIconClicked = { /*TODO*/ }) {
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 15.dp)
+            ) {
+                WordsList(
+                    words = words,
+                    onWordItemClicked = {
+                        it.visited = true
+                        onWordItemClicked(it)
+                        WordDetailData.word = it
+                        viewModel.updateWordForSearchedHistory(it)
+                    },
+                    scrollPosition = if (clickedAlphabetic.value.isEmpty()) null else words.indexOfFirst {
+                        it.englishTitle?.startsWith(
+                            clickedAlphabetic.value
+                        ) ?: false
+                    })
+                AlphabeticSection(
+                    onCharacterItemChanged = {
+                        viewModel.onAlphabeticCharItemClicked(it)
+                        viewModel.updateAlphabeticValue(it)
+                    }, selectedChar = clickedAlphabetic.value
+                )
+            }
         }
     }
 }

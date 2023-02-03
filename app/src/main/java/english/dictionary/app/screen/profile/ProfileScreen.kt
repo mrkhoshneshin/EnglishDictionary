@@ -26,24 +26,29 @@ import english.dictionary.app.data.User
 import english.dictionary.app.ui.common.Header
 import english.dictionary.app.ui.common.UsersItem
 import english.dictionary.app.ui.theme.DefaultTextStyle
+import english.dictionary.app.ui.theme.backgroundColor
 
 
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(15.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        Header(modifier = Modifier.padding(bottom = 12.dp),
-            headerTitle = "Profile",
-            leftIcon = R.drawable.menu,
-            rightIcon = null,
-            onLeftIconClicked = {},
-            onRightIconClicked = {})
-        UserInformationSection(viewModel.getUser())
-        DescriptionSection()
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(backgroundColor)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Header(modifier = Modifier.padding(bottom = 12.dp),
+                headerTitle = "Profile",
+                leftIcon = R.drawable.menu,
+                rightIcon = null,
+                onLeftIconClicked = {},
+                onRightIconClicked = {})
+            UserInformationSection(viewModel.getUser())
+            DescriptionSection()
+        }
     }
 }
 
