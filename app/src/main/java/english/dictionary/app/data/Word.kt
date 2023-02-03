@@ -15,6 +15,9 @@ data class Word(
     @ColumnInfo("is_favorite")
     var isFavorite: Boolean = false,
 
+    @ColumnInfo("visited")
+    var visited : Boolean = false,
+
     @ColumnInfo("english_title")
     @SerializedName("word")
     val englishTitle: String? = "",

@@ -26,4 +26,6 @@ interface WordDao {
     suspend fun updateWord(word: Word): Int
     @Query("SELECT * FROM words WHERE english_title LIKE :newValue || '%' AND is_favorite = :mustBeFavorite")
     suspend fun filterFavorites(newValue: String, mustBeFavorite: Boolean = true): List<Word>
+    @Query("SELECT * FROM words WHERE visited = :mustSearched")
+    fun getSearchedHistory(mustSearched: Boolean = true): Flow<List<Word>>
 }

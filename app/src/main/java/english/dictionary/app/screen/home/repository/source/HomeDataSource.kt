@@ -1,6 +1,7 @@
 package english.dictionary.app.screen.home.repository.source
 
 import english.dictionary.app.data.User
+import english.dictionary.app.data.Word
 import english.dictionary.app.screen.home.data.Slider
 import kotlinx.coroutines.flow.Flow
 
@@ -11,4 +12,6 @@ interface HomeDataSource {
     fun getFeatures(): Flow<List<String>>
 
     fun getUserName(): Flow<String>
+
+    fun getSearchHistory(): Flow<List<Word>>
 }

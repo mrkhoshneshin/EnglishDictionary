@@ -60,5 +60,11 @@ class SearchViewModel @Inject constructor(private val wordDao: WordDao) : ViewMo
     fun onWordItemClicked(word: Word){
         _theWordSentToDetailScreen.value = word
     }
+
+    fun updateWordForSearchedHistory(word: Word){
+        viewModelScope.launch {
+            wordDao.updateWord(word)
+        }
+    }
 }
 

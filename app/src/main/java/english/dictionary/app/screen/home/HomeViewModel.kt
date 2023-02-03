@@ -1,24 +1,30 @@
 package english.dictionary.app.screen.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import english.dictionary.app.data.Feature
 import english.dictionary.app.data.User
 import english.dictionary.app.data.Word
 import english.dictionary.app.screen.home.data.Slider
 import english.dictionary.app.screen.home.repository.HomeRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 //TODO add home repository
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(private val homeRepository: HomeRepository) : ViewModel() {
 
     private val _textFieldValue = MutableStateFlow("")
     val textFieldValue = _textFieldValue.asStateFlow()
+
+    private val _searchedHistoryWords = MutableStateFlow(ArrayList<Word>())
+    val searchedHistoryWords = _searchedHistoryWords.asStateFlow()
+
+    init {
+        getHistoryWords()
+    }
     fun getUserName(): Flow<String> {
         return flow { emit("Alireza") }
     }
@@ -40,33 +46,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         return listOf(Slider(), Slider(), Slider())
     }
 
-    fun getUsers(): List<User> {
-        return listOf(
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User(),
-            User()
-        )
-    }
-
-    fun getHistoryWords(): List<Word> {
-        return listOf(
-            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
-            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
-            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
-            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
-            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
-            Word(englishTitle = "Abstract", persianTitle = "انتزاعی"),
-        )
+    fun getHistoryWords() {
+        viewModelScope.launch {
+            homeRepository.getSearchHistory().collectLatest {
+                _searchedHistoryWords.value = it as ArrayList<Word>
+            }
+        }
     }
 }

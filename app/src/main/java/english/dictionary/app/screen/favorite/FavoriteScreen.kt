@@ -1,5 +1,6 @@
 package english.dictionary.app.screen.favorite
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import english.dictionary.app.ui.theme.DefaultTextStyle
 import english.dictionary.app.ui.theme.blue
 import english.dictionary.app.R
+import english.dictionary.app.ui.theme.backgroundColor
 
 @Composable
 fun FavoriteScreen(
@@ -25,7 +27,9 @@ fun FavoriteScreen(
     emptyState: Boolean = true,
     viewModel: FavoriteWordsViewModel,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(backgroundColor)) {
         Column(
             modifier = modifier
                 .padding(15.dp)
@@ -56,23 +60,25 @@ fun EmptyState(
     desc: String,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            painter = painterResource(id = icon),
-            contentDescription = "emptyStateIcon",
-            Modifier.size(100.dp),
-            tint = blue
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = desc,
-            style = DefaultTextStyle(color = Color.DarkGray),
-            textAlign = TextAlign.Center
-        )
+    Box(modifier = modifier.fillMaxSize().background(backgroundColor)){
+        Column(
+            modifier = modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = "emptyStateIcon",
+                Modifier.size(100.dp),
+                tint = blue
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = desc,
+                style = DefaultTextStyle(color = Color.DarkGray),
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }

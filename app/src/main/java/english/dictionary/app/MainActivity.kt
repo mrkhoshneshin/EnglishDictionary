@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -49,21 +50,25 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             var selectedBottomNavigationItemIndex by remember { mutableStateOf(0) }
             EnglishDictionaryTheme {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(backgroundColor),
-                    bottomBar = {
-                        BottomNavigation(
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)) {
+                    Scaffold(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        bottomBar = {
+                            BottomNavigation(
+                                backgroundColor = backgroundColor,
+                                navController = navController,
+                                selectedIndex = selectedBottomNavigationItemIndex,
+                                onSelectChanged = { selectedBottomNavigationItemIndex = it })
+                        }) {
+                        NavigationGraph(
                             navController,
-                            selectedIndex = selectedBottomNavigationItemIndex,
-                            onSelectChanged = { selectedBottomNavigationItemIndex = it })
-                    }) {
-                    NavigationGraph(
-                        navController,
-                        showShowRuntimePermission_voiceRecord = {
-                            requestPermissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
-                        }, onBackHandledToHome = { selectedBottomNavigationItemIndex = 0 })
+                            showShowRuntimePermission_voiceRecord = {
+                                requestPermissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
+                            }, onBackHandledToHome = { selectedBottomNavigationItemIndex = 0 })
+                    }
                 }
             }
         }

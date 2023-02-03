@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
@@ -28,7 +29,7 @@ fun BottomNavigation(
             Screen.SearchScreen,
             Screen.BooksScreen
         )
-        BottomNavigation(backgroundColor = backgroundColor) {
+        BottomNavigation(backgroundColor = backgroundColor, elevation = 0.dp) {
 
             items.forEach {
                 BottomNavigationItem(

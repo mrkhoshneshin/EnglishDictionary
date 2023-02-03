@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import english.dictionary.app.R
 import english.dictionary.app.data.WordDetailData
-import english.dictionary.app.screen.BooksScreen
+import english.dictionary.app.screen.book.BooksScreen
 import english.dictionary.app.screen.favorite.FavoriteScreen
 import english.dictionary.app.screen.favorite.FavoriteWordsViewModel
 import english.dictionary.app.screen.home.HomeScreen
@@ -96,7 +96,7 @@ fun NavigationGraph(
             val favoriteWords = viewModel.favoriteWords.collectAsState().value
             val emptyState = favoriteWords.size == 0
             FavoriteScreen(
-                emptyState = false,
+                emptyState = emptyState,
                 header = {
                     Header(
                         headerTitle = stringResource(id = R.string.favorite_words),

@@ -36,35 +36,47 @@ import english.dictionary.app.util.AppSettings
 
 @ExperimentalPagerApi
 @Composable
-fun HomeScreen(viewModel: HomeViewModel, onProfileIconClicked: () -> Unit, onFeatureItemClicked: (Feature) -> Unit) {
+fun HomeScreen(
+    viewModel: HomeViewModel,
+    onProfileIconClicked: () -> Unit,
+    onFeatureItemClicked: (Feature) -> Unit
+) {
     var searchBoxState = viewModel.textFieldValue.collectAsState()
-
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-            .background(backgroundColor)
-    ) {
-        Header(
-            modifier = Modifier.padding(15.dp),
-            headerTitle = "Hi ${
-                viewModel.getUserName().collectAsState(initial = "").value
-            }, Good midnight",
-            leftIcon = R.drawable.menu,
-            rightIcon = R.drawable.user,
-            onLeftIconClicked = {},
-            onRightIconClicked = { onProfileIconClicked() }
-        )
-        //TODO add real list here
-        ViewPagerSlider()
-        CustomTextField(
-            modifier = Modifier.padding(15.dp), textFieldValue = searchBoxState.value,
-            onTextFieldTextChanged = { viewModel.updateTextFieldValue(it) },
-            onSearchIconClicked = { /*TODO*/ }) {
+    val searchHistoryList = viewModel.searchedHistoryWords.collectAsState().value
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(backgroundColor)) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .background(backgroundColor)
+        ) {
+            Header(
+                modifier = Modifier.padding(15.dp),
+                headerTitle = "Hi ${
+                    viewModel.getUserName().collectAsState(initial = "").value
+                }, Good midnight",
+                leftIcon = R.drawable.menu,
+                rightIcon = R.drawable.user,
+                onLeftIconClicked = {},
+                onRightIconClicked = { onProfileIconClicked() }
+            )
+            //TODO add real list here
+            ViewPagerSlider()
+            CustomTextField(
+                modifier = Modifier.padding(15.dp), textFieldValue = searchBoxState.value,
+                onTextFieldTextChanged = { viewModel.updateTextFieldValue(it) },
+                onSearchIconClicked = { /*TODO*/ }) {
+            }
+            FeatureSection(
+                features = viewModel.getFeatures(),
+                onFeatureItemClicked = { onFeatureItemClicked(it) })
+            // UsersListSection(users = viewModel.getUsers(), onShowMoreButtonClicked = {})
+            if (searchHistoryList.size != 0) {
+                SearchHistorySection(words = searchHistoryList, onWordItemClicked = {})
+            }
         }
-        FeatureSection(features = viewModel.getFeatures(), onFeatureItemClicked = { onFeatureItemClicked(it)})
-        // UsersListSection(users = viewModel.getUsers(), onShowMoreButtonClicked = {})
-        SearchHistorySection(words = viewModel.getHistoryWords(), onWordItemClicked = {})
     }
 }
 
@@ -113,6 +125,7 @@ fun HistoryItem(
     Card(
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp)
+            .width(150.dp)
             .clip(RoundedCornerShape(12.dp))
             .clickable { onItemClicked() }, elevation = 2.dp
     ) {
@@ -122,7 +135,8 @@ fun HistoryItem(
                 text = if (word.englishTitle.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.englishTitle,
                 style = DefaultTextStyle(),
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -130,9 +144,9 @@ fun HistoryItem(
                     id = R.string.notFound
                 ) else word.persianTitle,
                 style = DefaultTextStyle(),
-                textAlign = TextAlign.End,
+                textAlign = TextAlign.Center,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }
@@ -215,10 +229,4 @@ fun UsersListSection(
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ListPreview(viewModel: HomeViewModel = hiltViewModel()) {
-    UsersListSection(users = viewModel.getUsers())
 }
