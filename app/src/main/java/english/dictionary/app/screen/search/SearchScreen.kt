@@ -24,7 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,7 +39,6 @@ import english.dictionary.app.ui.common.CustomTextField
 import english.dictionary.app.ui.theme.DefaultTextStyle
 import english.dictionary.app.ui.theme.backgroundColor
 import english.dictionary.app.ui.theme.blue
-import english.dictionary.app.ui.theme.blueLight
 import english.dictionary.app.util.Alphabet
 import english.dictionary.app.util.RecognitionListener
 import kotlinx.coroutines.launch
@@ -58,7 +59,9 @@ fun SearchScreen(
     val context = LocalContext.current
     val words = viewModel.wordState.collectAsState().value
 
-    Box(modifier = Modifier.fillMaxSize().background(backgroundColor)){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(backgroundColor)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -79,7 +82,7 @@ fun SearchScreen(
             }
 
             Header(
-                headerTitle = "Hi $userName, Good midnight",
+                title = stringResource(id = R.string.search),
                 leftIcon = R.drawable.menu,
                 rightIcon = R.drawable.microphone,
                 onLeftIconClicked = {},
@@ -106,6 +109,7 @@ fun SearchScreen(
                 onTextFieldTextChanged = {
                     viewModel.updateTextFieldValue(it)
                 },
+                label = stringResource(id = R.string.searchSomething),
                 onSearchIconClicked = { /*TODO*/ }) {
             }
             Row(
@@ -203,7 +207,7 @@ fun RecognitionDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(12.dp)
             ) {
-                if(!onBeginningOfSpeech){
+                if (!onBeginningOfSpeech) {
                     Icon(
                         painter = painterResource(id = R.drawable.microphone),
                         contentDescription = "speechIcon",
@@ -249,15 +253,14 @@ fun AlphabeticSection(
                     .clickable(interactionSource = interactionSource, indication = null) {
                         onCharacterItemChanged(Alphabet.getAsList()[it].toString())
                     }
-                    .clip(RoundedCornerShape(50.dp))
-                    .background(if (selectedChar == Alphabet.getAsList()[it].toString()) blueLight else Color.Transparent)
             ) {
                 Text(
                     text = Alphabet.getAsList()[it].toString(),
                     style = DefaultTextStyle(
-                        fontSize = MaterialTheme.typography.h6.fontSize,
+                        fontSize = if (selectedChar == Alphabet.getAsList()[it].toString()) MaterialTheme.typography.h6.fontSize else 14.sp,
                         color = if (selectedChar == Alphabet.getAsList()[it].toString()) blue else Color.Black
                     ),
+                    textAlign = TextAlign.Center
                 )
             }
         }

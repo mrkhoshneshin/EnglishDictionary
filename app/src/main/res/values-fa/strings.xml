@@ -20,6 +20,13 @@
     <string name="notFound">تعریف نشده</string>
     <string name="networkConnectionNeeded">دسترسی به اینترنت مورد نیاز است</string>
     <string name="favorite_words">لیست علاقه مندی</string>
-    <string name="emptyStateDesc">لیست مورد علاقه خالی می باشد</string>
+    <string name="emptyStateDesc">لیست علاقمندی ها می باشد</string>
     <string name="searchInFavorites">جستجو در علاقمندی ها</string>
+    <string name="searchSomething">یه چیزی سرچ کن</string>
+    <string name="hi">سلام</string>
+    <string name="goodMorning">صبح بخیر</string>
+    <string name="goodNight">شب بخیر</string>
+    <string name="goodAfternoon">بعدازظهر بخیر</string>
+    <string name="profile">پروفایل</string>
+    <string name="search">جستجو</string>
 </resources>
