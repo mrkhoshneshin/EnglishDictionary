@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WordDao {
     @Query("SELECT * FROM words")
-    suspend fun getAll(): List<Word>
+    suspend fun getAll(): List<Word>?
 
     @Query("SELECT * FROM words WHERE english_title LIKE :query || '%'")
     suspend fun filter(query: String): List<Word>
@@ -28,4 +28,6 @@ interface WordDao {
     suspend fun filterFavorites(newValue: String, mustBeFavorite: Boolean = true): List<Word>
     @Query("SELECT * FROM words WHERE visited = :mustSearched")
     fun getSearchedHistory(mustSearched: Boolean = true): Flow<List<Word>>
+    @Insert
+    suspend fun insert(word: Word)
 }

@@ -1,6 +1,5 @@
 package english.dictionary.app.screen.home
 
-import android.webkit.WebHistoryItem
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -12,7 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +31,8 @@ import english.dictionary.app.ui.common.UsersItem
 import english.dictionary.app.ui.theme.DefaultTextStyle
 import english.dictionary.app.ui.theme.backgroundColor
 import english.dictionary.app.ui.theme.blue
-import english.dictionary.app.util.AppSettings
+import english.dictionary.app.util.getLocale
+import java.util.*
 
 @ExperimentalPagerApi
 @Composable
@@ -43,9 +43,11 @@ fun HomeScreen(
 ) {
     var searchBoxState = viewModel.textFieldValue.collectAsState()
     val searchHistoryList = viewModel.searchedHistoryWords.collectAsState().value
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(backgroundColor)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(backgroundColor)
+    ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -54,9 +56,8 @@ fun HomeScreen(
         ) {
             Header(
                 modifier = Modifier.padding(15.dp),
-                headerTitle = "Hi ${
-                    viewModel.getUserName().collectAsState(initial = "").value
-                }, Good midnight",
+                title = viewModel.getUserName().collectAsState(initial = "").value,
+                greetingTitle = true,
                 leftIcon = R.drawable.menu,
                 rightIcon = R.drawable.user,
                 onLeftIconClicked = {},
@@ -65,9 +66,12 @@ fun HomeScreen(
             //TODO add real list here
             ViewPagerSlider()
             CustomTextField(
-                modifier = Modifier.padding(15.dp), textFieldValue = searchBoxState.value,
+                modifier = Modifier.padding(15.dp),
+                textFieldValue = searchBoxState.value,
                 onTextFieldTextChanged = { viewModel.updateTextFieldValue(it) },
-                onSearchIconClicked = { /*TODO*/ }) {
+                onSearchIconClicked = { /*TODO*/ },
+                label = stringResource(id = R.string.searchSomething)
+            ) {
             }
             FeatureSection(
                 features = viewModel.getFeatures(),
@@ -180,6 +184,7 @@ fun FeatureItem(
                 style = DefaultTextStyle(fontSize = MaterialTheme.typography.body2.fontSize)
             )
             Icon(
+                modifier = Modifier.rotate(if (getLocale() == Locale.ENGLISH) 0f else 180f),
                 painter = painterResource(id = R.drawable.arrow_right),
                 contentDescription = "arrow_right"
             )

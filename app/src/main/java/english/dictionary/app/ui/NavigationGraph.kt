@@ -99,7 +99,7 @@ fun NavigationGraph(
                 emptyState = emptyState,
                 header = {
                     Header(
-                        headerTitle = stringResource(id = R.string.favorite_words),
+                        title = stringResource(id = R.string.favorite_words),
                         leftIcon = null,
                         rightIcon = null,
                         onLeftIconClicked = { },

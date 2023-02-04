@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import english.dictionary.app.data.Word
 import english.dictionary.app.db.WordDao
+import english.dictionary.app.screen.search.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,9 @@ import javax.inject.Inject
 
 //TODO add repository
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val wordDao: WordDao) : ViewModel() {
+class SearchViewModel @Inject constructor(
+    private val searchRepository: SearchRepository
+) : ViewModel() {
     private val _wordsState = MutableStateFlow(ArrayList<Word>())
     val wordState = _wordsState.asStateFlow()
 
@@ -25,22 +28,25 @@ class SearchViewModel @Inject constructor(private val wordDao: WordDao) : ViewMo
 
     private val _theWordSentToDetailScreen = MutableStateFlow(Word())
     val theWordSentToDetailScreen = _theWordSentToDetailScreen.asStateFlow()
+
     init {
         getAllWords()
     }
 
-    private fun getAllWords(){
+    private fun getAllWords() {
         viewModelScope.launch(Dispatchers.IO) {
-            _wordsState.value = wordDao.getAll() as ArrayList<Word>
+            _wordsState.value = searchRepository.getAllWords() as ArrayList<Word>
         }
     }
+
     fun updateAlphabeticValue(newValue: String) {
         _alphabeticItemSelectedState.value = newValue
     }
+
     fun updateTextFieldValue(newValue: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            if(newValue.isEmpty()) _wordsState.value = wordDao.getAll() as ArrayList<Word>
-            else _wordsState.value = wordDao.filter(newValue) as ArrayList<Word>
+            if (newValue.isEmpty()) _wordsState.value = searchRepository.getAllWords() as ArrayList<Word>
+            else _wordsState.value = searchRepository.filter(newValue) as ArrayList<Word>
         }
         _textFiledState.value = newValue
     }
@@ -57,13 +63,19 @@ class SearchViewModel @Inject constructor(private val wordDao: WordDao) : ViewMo
     fun onAlphabeticCharItemClicked(char: String) {
     }
 
-    fun onWordItemClicked(word: Word){
+    fun onWordItemClicked(word: Word) {
         _theWordSentToDetailScreen.value = word
     }
 
-    fun updateWordForSearchedHistory(word: Word){
+    fun updateWordForSearchedHistory(word: Word) {
         viewModelScope.launch {
-            wordDao.updateWord(word)
+            searchRepository.updateWord(word)
+        }
+    }
+
+    fun addWord(word: Word){
+        viewModelScope.launch {
+            searchRepository.addWord(word)
         }
     }
 }

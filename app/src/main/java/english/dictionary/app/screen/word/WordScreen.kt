@@ -1,6 +1,5 @@
 package english.dictionary.app.screen.word
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,7 +36,7 @@ fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
     ) {
         Header(
             modifier = Modifier.padding(bottom = 32.dp),
-            headerTitle = "Hi $userName, Good midnight",
+            title = userName,
             leftIcon = R.drawable.menu,
             rightIcon = if (favoriteIconState) R.drawable.heart_filled else R.drawable.heart_outlined,
             onLeftIconClicked = {},
