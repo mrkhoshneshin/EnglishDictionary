@@ -2,8 +2,7 @@ package english.dictionary.app.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -14,6 +13,7 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import english.dictionary.app.R
 import english.dictionary.app.data.WordDetailData
+import english.dictionary.app.screen.book.BookViewModel
 import english.dictionary.app.screen.book.BooksScreen
 import english.dictionary.app.screen.favorite.FavoriteScreen
 import english.dictionary.app.screen.favorite.FavoriteWordsViewModel
@@ -54,7 +54,7 @@ fun NavigationGraph(
                 viewModel,
                 onProfileIconClicked = { navController.navigate(Screen.ProfileScreen.route) },
                 onFeatureItemClicked = {
-                    when(it.id){
+                    when (it.id) {
                         FeatureEnum.FLASH_CARD -> navController.navigate(Screen.FavoriteWords.route)
                         FeatureEnum.GOOGLE_TRANSLATE -> {
                             WebViewUrl.value = viewModel.getGoogleTranslateUrl()
@@ -65,6 +65,10 @@ fun NavigationGraph(
                             navController.navigate(Screen.WebViewScreen.route)
                         }
                     }
+                },
+                onPageItemClicked = {
+                    WebViewUrl.value = it.url
+                    navController.navigate(Screen.WebViewScreen.route)
                 }
             )
         }
@@ -99,7 +103,13 @@ fun NavigationGraph(
         }
 
         composable(Screen.BooksScreen.route) {
-            BooksScreen()
+            val viewModel: BookViewModel = hiltViewModel()
+            BooksScreen(
+                viewModel.getBooks(),
+                onBookItemClicked = {
+                    WebViewUrl.value = it.url
+                    navController.navigate(Screen.WebViewScreen.route)
+                })
         }
         composable(Screen.FavoriteWords.route) {
             val viewModel: FavoriteWordsViewModel = hiltViewModel()
@@ -126,9 +136,13 @@ fun NavigationGraph(
                     }
                 },
                 alphabets = {
-                    AlphabeticSection(modifier = Modifier.padding(bottom = 50.dp), onCharacterItemChanged = {
-                        viewModel.onSelectedAlphabetChanged(it)
-                    }, selectedChar = selectedAlphabet)
+                    AlphabeticSection(
+                        modifier = Modifier.padding(bottom = 50.dp),
+                        onCharacterItemChanged = {
+                            viewModel.onSelectedAlphabetChanged(it)
+                        },
+                        selectedChar = selectedAlphabet
+                    )
                 },
                 words = {
                     WordsList(words = favoriteWords,
@@ -145,7 +159,7 @@ fun NavigationGraph(
                 }, viewModel = viewModel
             )
         }
-        composable(Screen.WebViewScreen.route){
+        composable(Screen.WebViewScreen.route) {
             WebViewScreen(url = WebViewUrl.value)
         }
     }

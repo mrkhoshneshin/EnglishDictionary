@@ -58,7 +58,6 @@ fun SearchScreen(
 
     val context = LocalContext.current
     val words = viewModel.wordState.collectAsState().value
-
     Box(modifier = Modifier
         .fillMaxSize()
         .background(backgroundColor)) {

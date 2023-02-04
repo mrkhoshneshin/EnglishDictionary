@@ -1,8 +1,8 @@
 package english.dictionary.app.screen.home.repository
 
+import english.dictionary.app.data.Book
 import english.dictionary.app.data.User
 import english.dictionary.app.data.Word
-import english.dictionary.app.screen.home.data.Slider
 import english.dictionary.app.screen.home.repository.source.HomeDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,7 +12,7 @@ class HomeRepositoryImpl @Inject constructor(private val dataSource: HomeDataSou
         TODO("Not yet implemented")
     }
 
-    override fun getBanners(): Flow<List<Slider>> {
+    override fun getBanners(): Flow<List<Book>> {
         TODO("Not yet implemented")
     }
 

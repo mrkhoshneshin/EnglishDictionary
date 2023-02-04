@@ -28,4 +28,6 @@
     <string name="goodAfternoon">Good afternoon!</string>
     <string name="profile">Profile</string>
     <string name="search">Search</string>
+    <string name="please_wait">Please wait</string>
+    <string name="books">Books</string>
 </resources>
