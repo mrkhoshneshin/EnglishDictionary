@@ -19,6 +19,9 @@ import english.dictionary.app.screen.favorite.FavoriteScreen
 import english.dictionary.app.screen.favorite.FavoriteWordsViewModel
 import english.dictionary.app.screen.home.HomeScreen
 import english.dictionary.app.screen.home.HomeViewModel
+import english.dictionary.app.screen.home.WebViewScreen
+import english.dictionary.app.screen.home.data.FeatureEnum
+import english.dictionary.app.screen.home.data.WebViewUrl
 import english.dictionary.app.screen.profile.ProfileScreen
 import english.dictionary.app.screen.search.AlphabeticSection
 import english.dictionary.app.screen.search.SearchScreen
@@ -51,8 +54,17 @@ fun NavigationGraph(
                 viewModel,
                 onProfileIconClicked = { navController.navigate(Screen.ProfileScreen.route) },
                 onFeatureItemClicked = {
-                    //TODO should navigate with title
-                    navController.navigate(Screen.FavoriteWords.route)
+                    when(it.id){
+                        FeatureEnum.FLASH_CARD -> navController.navigate(Screen.FavoriteWords.route)
+                        FeatureEnum.GOOGLE_TRANSLATE -> {
+                            WebViewUrl.value = viewModel.getGoogleTranslateUrl()
+                            navController.navigate(Screen.WebViewScreen.route)
+                        }
+                        FeatureEnum.GRAMMARLY -> {
+                            WebViewUrl.value = viewModel.getGrammerlyUrl()
+                            navController.navigate(Screen.WebViewScreen.route)
+                        }
+                    }
                 }
             )
         }
@@ -132,6 +144,9 @@ fun NavigationGraph(
 
                 }, viewModel = viewModel
             )
+        }
+        composable(Screen.WebViewScreen.route){
+            WebViewScreen(url = WebViewUrl.value)
         }
     }
 }
