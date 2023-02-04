@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import english.dictionary.app.data.Feature
-import english.dictionary.app.data.User
 import english.dictionary.app.data.Word
+import english.dictionary.app.screen.home.data.FeatureEnum
 import english.dictionary.app.screen.home.data.Slider
 import english.dictionary.app.screen.home.repository.HomeRepository
 import kotlinx.coroutines.flow.*
@@ -35,10 +35,10 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     fun getFeatures(): List<Feature> {
         return listOf(
-            Feature("Collection"),
-            Feature("FlashCard"),
-            Feature("Grammerly"),
-            Feature("Google Translate")
+            Feature(id = FeatureEnum.COLLECTION,"Collection"),
+            Feature(id = FeatureEnum.FLASH_CARD,"FlashCard"),
+            Feature(id = FeatureEnum.GRAMMARLY,"Grammerly"),
+            Feature(id = FeatureEnum.GOOGLE_TRANSLATE,"Google Translate")
         )
     }
 
@@ -52,5 +52,13 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 _searchedHistoryWords.value = it as ArrayList<Word>
             }
         }
+    }
+
+    fun getGoogleTranslateUrl(): String {
+        return "https://translate.google.com/"
+    }
+
+    fun getGrammerlyUrl(): String {
+        return "https://app.grammarly.com/"
     }
 }
