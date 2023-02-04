@@ -3,10 +3,11 @@ package english.dictionary.app.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import english.dictionary.app.data.Book
 import english.dictionary.app.data.Feature
 import english.dictionary.app.data.Word
+import english.dictionary.app.screen.book.books
 import english.dictionary.app.screen.home.data.FeatureEnum
-import english.dictionary.app.screen.home.data.Slider
 import english.dictionary.app.screen.home.repository.HomeRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -42,8 +43,8 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         )
     }
 
-    fun getSliders(): List<Slider> {
-        return listOf(Slider(), Slider(), Slider())
+    fun getSliders(): List<Book> {
+        return books()
     }
 
     fun getHistoryWords() {
