@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">دیکشنری تخصصی</string>
-    <string name="fullName">Full name</string>
+    <string name="fullName">نام و نام خانوادگی</string>
     <string name="university">دانشگاه</string>
     <string name="education">رشته</string>
-    <string name="text">English texts for beginners to practice reading and comprehension online and for free. Practicing your comprehension of written English will both improve your vocabulary and understanding of grammar and word order. The texts below are designed to help you develop while giving you an instant evaluation of your progress.</string>
+    <string name="text">با جان دو، یک دانشجوی باهوش و جاه طلب که در حال حاضر در دانشگاه XYZ تحصیل می کند، آشنا شوید. جان همیشه اشتیاق به یادگیری و میل به موفقیت داشته است، که باعث شد او تحصیلات عالی را در یکی از دانشگاه های برتر کشور دنبال کند.
+جان در طول مدت حضورش در XYZ از نظر تحصیلی سرآمد بوده و معدل بالایی کسب کرده و در عین حال دوره های چالش برانگیزی را پشت سر گذاشته است. او همچنین به طور فعال در زندگی دانشجویی شرکت داشته است، به عنوان عضوی از دولت دانشجویی و شرکت در تعدادی از باشگاه ها و سازمان ها.</string>
     <string name="expert_dictionary">دیکشنری تخصصی</string>
     <string name="materials_and_metallurgy_engineers">مهندسین مواد و متالوژی</string>
     <string name="talkNow">حالا می توانید صحبت کنید</string>
@@ -20,7 +21,7 @@
     <string name="notFound">تعریف نشده</string>
     <string name="networkConnectionNeeded">دسترسی به اینترنت مورد نیاز است</string>
     <string name="favorite_words">لیست علاقه مندی</string>
-    <string name="emptyStateDesc">لیست علاقمندی ها می باشد</string>
+    <string name="emptyStateDesc">لیست علاقمندی ها خالی می باشد</string>
     <string name="searchInFavorites">جستجو در علاقمندی ها</string>
     <string name="searchSomething">یه چیزی سرچ کن</string>
     <string name="hi">سلام</string>
@@ -38,4 +39,8 @@
     <string name="saveAndContinue">ذخیره و ادامه</string>
     <string name="checkEntries">ورودی هارا چک کنید</string>
     <string name="updateInformation">بروزرسانی اطلاعات</string>
+    <string name="englishTitle">عنوان انگلیسی</string>
+    <string name="persianTitle">عنوان فارسی</string>
+    <string name="englishDesc">توضیحات انگلیسی</string>
+    <string name="persianDesc">توضیحات فارسی</string>
 </resources>

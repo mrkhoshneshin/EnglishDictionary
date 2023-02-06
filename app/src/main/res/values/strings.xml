@@ -38,4 +38,8 @@ Throughout his time at XYZ, John has excelled academically, earning a high GPA w
     <string name="saveAndContinue">Save and continue</string>
     <string name="checkEntries">Please check entries</string>
     <string name="updateInformation">Update information</string>
+    <string name="englishTitle">English title</string>
+    <string name="persianTitle">Persian title</string>
+    <string name="englishDesc">English description</string>
+    <string name="persianDesc">Persian description</string>
 </resources>

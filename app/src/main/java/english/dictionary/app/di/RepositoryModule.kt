@@ -4,6 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import english.dictionary.app.screen.addBook.repository.AddWordRepository
+import english.dictionary.app.screen.addBook.repository.AddWordRepositoryImpl
+import english.dictionary.app.screen.addBook.repository.source.AddWordDataSource
+import english.dictionary.app.screen.addBook.repository.source.AddWordLocalDataSource
 import english.dictionary.app.screen.home.repository.HomeRepository
 import english.dictionary.app.screen.home.repository.HomeRepositoryImpl
 import english.dictionary.app.screen.home.repository.source.HomeDataSource
@@ -56,4 +60,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindInputInformationDataSource(dataSource: LocalInputUserInformationDataSource): InputInformationDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindAddWordRepository(impl: AddWordRepositoryImpl): AddWordRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAddWordDataSource(dataSource: AddWordLocalDataSource): AddWordDataSource
 }

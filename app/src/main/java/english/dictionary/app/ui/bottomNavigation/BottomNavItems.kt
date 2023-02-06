@@ -12,6 +12,7 @@ const val GET_USER_INFORMATION = "getUserInformation"
 const val BOOKS = "books"
 const val FAVORITE_WORDS = "favorite_words"
 const val WEB_VIEW = "webView"
+const val ADD_WORD = "addWord"
 
 /**
  * @param route Guide for navHost that which destination must navigate
@@ -26,6 +27,7 @@ sealed class Screen(
     object InputInformation: Screen(GET_USER_INFORMATION,-1,-1,"getUserInformation")
     object SplashScreen : Screen(SPLASH, -1, -1, "Splash")
 
+    object AddWord: Screen(ADD_WORD, -1,-1,"addWord")
     object WordDetail : Screen(WORD_DETAIL, -1, -1, "")
     object HomeScreen : Screen(
         HOME,

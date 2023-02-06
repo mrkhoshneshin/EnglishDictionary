@@ -99,7 +99,7 @@ fun BookItem(book: Book, onBookItemClicked: (Book) -> Unit) {
         }
         Text(
             modifier = Modifier
-                .background(Color.DarkGray)
+                .background(Color.White)
                 .padding(6.dp)
                 .fillMaxWidth()
                 .padding(start = 12.dp, end = 12.dp)
@@ -110,7 +110,7 @@ fun BookItem(book: Book, onBookItemClicked: (Book) -> Unit) {
             text = book.name,
             style = DefaultTextStyle(
                 fontSize = MaterialTheme.typography.body2.fontSize,
-                color = Color.White,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold
             ),
             maxLines = 1,

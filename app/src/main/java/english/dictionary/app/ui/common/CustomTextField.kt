@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import english.dictionary.app.R
 import english.dictionary.app.ui.theme.DefaultTextStyle
@@ -21,9 +22,13 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     label: String = "Search something",
     selectedStrokeColor: Color = blue,
-    leadingIcon: Int? = R.drawable.search,
+    leadingIcon: @Composable (() -> Unit)? = {
+        Icon(painter = painterResource(id = R.drawable.search), contentDescription = "leadingIcon")
+    },
     iconTint: Color = blue,
     textFieldValue: String,
+    height: Dp = 60.dp,
+    singleLine: Boolean = true,
     onTextFieldTextChanged: (String) -> Unit,
     onSearchIconClicked: () -> Unit,
     onKeyBoardOptionClicked: () -> Unit
@@ -35,7 +40,7 @@ fun CustomTextField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp),
+                .height(height),
             value = textFieldValue,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Blue,
@@ -43,16 +48,8 @@ fun CustomTextField(
             ),
             label = { Text(text = label, style = DefaultTextStyle(), color = Color.Gray) },
             shape = RoundedCornerShape(12.dp),
-            leadingIcon = {
-                if (leadingIcon != null) {
-                    Icon(
-                        painter = painterResource(id = leadingIcon),
-                        contentDescription = "searchIcon",
-                        tint = iconTint
-                    )
-                }
-            },
-            singleLine = true,
+            leadingIcon = leadingIcon,
+            singleLine = singleLine,
             keyboardActions = KeyboardActions(onSearch = {}),
             keyboardOptions = KeyboardOptions(imeAction = androidx.compose.ui.text.input.ImeAction.Search),
             onValueChange = { onTextFieldTextChanged(it) })
