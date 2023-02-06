@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+   // id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -23,7 +24,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -75,8 +77,6 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     implementation "androidx.compose.ui:ui-util:$compose_ui_version"
 
-
-
     //Compose view model
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
     //Compose navigation
@@ -99,7 +99,7 @@ dependencies {
 
     //Data store
     implementation "androidx.datastore:datastore-preferences:1.0.0"
-
+    implementation "androidx.datastore:datastore:1.0.0"
     //Gson
     implementation 'com.google.code.gson:gson:2.10.1'
 
@@ -110,4 +110,9 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:2.5.0"
 
+    //Coil
+    implementation "io.coil-kt:coil-compose:2.2.2"
+
+    //Internet was so good and could not download this ( I'm gonna use sharedPreferences datastore)
+    //implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
 }

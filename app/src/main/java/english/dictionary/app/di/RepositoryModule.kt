@@ -8,6 +8,10 @@ import english.dictionary.app.screen.home.repository.HomeRepository
 import english.dictionary.app.screen.home.repository.HomeRepositoryImpl
 import english.dictionary.app.screen.home.repository.source.HomeDataSource
 import english.dictionary.app.screen.home.repository.source.LocalHomeDataSource
+import english.dictionary.app.screen.inputInformation.repository.InputInformationRepository
+import english.dictionary.app.screen.inputInformation.repository.InputInformationRepositoryImpl
+import english.dictionary.app.screen.inputInformation.repository.sourse.InputInformationDataSource
+import english.dictionary.app.screen.inputInformation.repository.sourse.LocalInputUserInformationDataSource
 import english.dictionary.app.screen.profile.repository.ProfileRepository
 import english.dictionary.app.screen.profile.repository.ProfileRepositoryImpl
 import english.dictionary.app.screen.profile.repository.source.LocalProfileDataSource
@@ -44,4 +48,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindSearchDataSource(dataSource: LocalSearchDataSource): SearchDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindInputInformationRepository(impl: InputInformationRepositoryImpl): InputInformationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindInputInformationDataSource(dataSource: LocalInputUserInformationDataSource): InputInformationDataSource
 }

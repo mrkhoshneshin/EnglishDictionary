@@ -31,4 +31,11 @@
     <string name="search">جستجو</string>
     <string name="please_wait">لطفا صبر کنید.</string>
     <string name="books">کتاب ها</string>
+    <string name="addNewWord">افزودن کلمه جدید</string>
+    <string name="onlineList">لیست آنلاین</string>
+    <string name="welcome">خوش آمدید</string>
+    <string name="please">Please</string>
+    <string name="saveAndContinue">ذخیره و ادامه</string>
+    <string name="checkEntries">ورودی هارا چک کنید</string>
+    <string name="updateInformation">بروزرسانی اطلاعات</string>
 </resources>

@@ -1,5 +1,6 @@
 package english.dictionary.app.screen.home
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -22,10 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import english.dictionary.app.R
-import english.dictionary.app.data.Book
-import english.dictionary.app.data.Feature
-import english.dictionary.app.data.User
-import english.dictionary.app.data.Word
+import english.dictionary.app.data.*
 import english.dictionary.app.ui.common.Header
 import english.dictionary.app.ui.common.CustomTextField
 import english.dictionary.app.ui.common.UsersItem
@@ -41,10 +39,12 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     onProfileIconClicked: () -> Unit,
     onFeatureItemClicked: (Feature) -> Unit,
-    onPageItemClicked: (Book) -> Unit
+    onPageItemClicked: (Book) -> Unit,
 ) {
     var searchBoxState = viewModel.textFieldValue.collectAsState()
     val searchHistoryList = viewModel.searchedHistoryWords.collectAsState().value
+    val userName = viewModel.userNameState.collectAsState().value
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -59,14 +59,13 @@ fun HomeScreen(
         ) {
             Header(
                 modifier = Modifier.padding(15.dp),
-                title = viewModel.getUserName().collectAsState(initial = "").value,
+                title = userName,
                 greetingTitle = true,
                 leftIcon = R.drawable.menu,
                 rightIcon = R.drawable.user,
                 onLeftIconClicked = {},
                 onRightIconClicked = { onProfileIconClicked() }
             )
-            //TODO add real list here
             Pager(onPagerItemClicked = { bookItem -> onPageItemClicked(bookItem) })
             CustomTextField(
                 modifier = Modifier.padding(15.dp),

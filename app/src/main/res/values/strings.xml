@@ -3,7 +3,8 @@
     <string name="fullName">Full name</string>
     <string name="university">University</string>
     <string name="education">Education</string>
-    <string name="text">English texts for beginners to practice reading and comprehension online and for free. Practicing your comprehension of written English will both improve your vocabulary and understanding of grammar and word order. The texts below are designed to help you develop while giving you an instant evaluation of your progress.</string>
+    <string name="text">Meet John Doe, a bright and ambitious student currently studying at XYZ University. John has always had a passion for learning and a drive to succeed, which led him to pursue a higher education at one of the top universities in the country.
+Throughout his time at XYZ, John has excelled academically, earning a high GPA while taking a challenging course load. He has also been actively involved in student life, serving as a member of the student government and participating in a number of clubs and organizations</string>
     <string name="expert_dictionary">Expert dictionary</string>
     <string name="materials_and_metallurgy_engineers">Materials and metallurgy engineers</string>
     <string name="talkNow">Talk now</string>
@@ -30,4 +31,11 @@
     <string name="search">Search</string>
     <string name="please_wait">Please wait</string>
     <string name="books">Books</string>
+    <string name="addNewWord">Add new word</string>
+    <string name="onlineList">Online list</string>
+    <string name="welcome">Welcome</string>
+    <string name="please">Please</string>
+    <string name="saveAndContinue">Save and continue</string>
+    <string name="checkEntries">Please check entries</string>
+    <string name="updateInformation">Update information</string>
 </resources>

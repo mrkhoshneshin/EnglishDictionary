@@ -21,9 +21,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import kotlinx.coroutines.delay
 import english.dictionary.app.R
 import english.dictionary.app.ui.theme.DefaultTextStyle
-import english.dictionary.app.ui.theme.splash_blue
-import english.dictionary.app.ui.theme.splash_blue2
-import english.dictionary.app.ui.theme.splash_blue3
+import english.dictionary.app.ui.theme.blue1
+import english.dictionary.app.ui.theme.blue2
+import english.dictionary.app.ui.theme.blue3
 
 @Composable
 fun AnimatedSplashScreen(onTimeOvered: () -> Unit) {
@@ -50,9 +50,9 @@ fun SplashScreen(alpha: Float) {
             .background(
                 Brush.linearGradient(
                     colors = listOf(
-                        splash_blue3,
-                        splash_blue2,
-                        splash_blue,
+                        blue3,
+                        blue2,
+                        blue1,
                         Color.White,
                         Color.White,
                         Color.White,
@@ -61,9 +61,9 @@ fun SplashScreen(alpha: Float) {
                         Color.White,
                         Color.White,
                         Color.White,
-                        splash_blue,
-                        splash_blue2,
-                        splash_blue3
+                        blue1,
+                        blue2,
+                        blue3
                     ), tileMode = TileMode.Repeated,
                 )
             )

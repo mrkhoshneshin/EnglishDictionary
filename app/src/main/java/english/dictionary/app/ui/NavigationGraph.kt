@@ -22,6 +22,7 @@ import english.dictionary.app.screen.home.HomeViewModel
 import english.dictionary.app.screen.home.WebViewScreen
 import english.dictionary.app.screen.home.data.FeatureEnum
 import english.dictionary.app.screen.home.data.WebViewUrl
+import english.dictionary.app.screen.inputInformation.InputInformationScreen
 import english.dictionary.app.screen.profile.ProfileScreen
 import english.dictionary.app.screen.search.AlphabeticSection
 import english.dictionary.app.screen.search.SearchScreen
@@ -69,7 +70,7 @@ fun NavigationGraph(
                 onPageItemClicked = {
                     WebViewUrl.value = it.url
                     navController.navigate(Screen.WebViewScreen.route)
-                }
+                },
             )
         }
         composable(Screen.SearchScreen.route) {
@@ -87,7 +88,12 @@ fun NavigationGraph(
             }
         }
         composable(Screen.ProfileScreen.route) {
-            ProfileScreen()
+            ProfileScreen(
+                onAddNewWordButtonClicked = {},
+                onOnlineListButtonClicked = {},
+                onUpdateInformationClicked = {
+                    navController.navigate(Screen.InputInformation.route)
+                })
             BackHandler {
                 val currentRoute = it.destination.route
                 if (currentRoute == Screen.ProfileScreen.route) onBackHandledToHome()
@@ -129,6 +135,7 @@ fun NavigationGraph(
                 },
                 searchBox = {
                     CustomTextField(
+                        leadingIcon = R.drawable.heart_search,
                         label = stringResource(id = R.string.searchInFavorites),
                         textFieldValue = textFieldValue,
                         onTextFieldTextChanged = { viewModel.onTextFieldTextChanged(it) },
@@ -161,6 +168,10 @@ fun NavigationGraph(
         }
         composable(Screen.WebViewScreen.route) {
             WebViewScreen(url = WebViewUrl.value)
+        }
+
+        composable(Screen.InputInformation.route) {
+            InputInformationScreen(onSaveButtonClicked = { navController.popBackStack() })
         }
     }
 }

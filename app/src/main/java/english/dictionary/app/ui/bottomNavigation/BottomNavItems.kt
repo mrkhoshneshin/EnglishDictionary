@@ -23,7 +23,7 @@ sealed class Screen(
     val title: String,
     val index: Int = -1
 ) {
-
+    object InputInformation: Screen(GET_USER_INFORMATION,-1,-1,"getUserInformation")
     object SplashScreen : Screen(SPLASH, -1, -1, "Splash")
 
     object WordDetail : Screen(WORD_DETAIL, -1, -1, "")

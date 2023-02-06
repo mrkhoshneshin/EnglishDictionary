@@ -1,5 +1,6 @@
 package english.dictionary.app.screen.favorite
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -27,9 +28,11 @@ fun FavoriteScreen(
     emptyState: Boolean = true,
     viewModel: FavoriteWordsViewModel,
 ) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(backgroundColor)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(backgroundColor)
+    ) {
         Column(
             modifier = modifier
                 .padding(15.dp)
@@ -39,7 +42,7 @@ fun FavoriteScreen(
             header()
             if (emptyState) {
                 EmptyState(
-                    icon = R.drawable.heart_filled,
+                    icon = R.drawable.no_favorite_item,
                     desc = stringResource(id = R.string.emptyStateDesc)
                 )
             } else {
@@ -60,17 +63,18 @@ fun EmptyState(
     desc: String,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize().background(backgroundColor)){
+    Box(modifier = modifier
+        .fillMaxSize()
+        .background(backgroundColor)) {
         Column(
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Icon(
+            Image(
                 painter = painterResource(id = icon),
                 contentDescription = "emptyStateIcon",
-                Modifier.size(100.dp),
-                tint = blue
+                Modifier.size(200.dp),
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(

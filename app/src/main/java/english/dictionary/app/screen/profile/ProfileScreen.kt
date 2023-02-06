@@ -3,11 +3,14 @@ package english.dictionary.app.screen.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import english.dictionary.app.R
 import english.dictionary.app.data.User
+import english.dictionary.app.data.UserSettings
 import english.dictionary.app.ui.common.Header
 import english.dictionary.app.ui.common.UsersItem
 import english.dictionary.app.ui.theme.DefaultTextStyle
@@ -27,10 +31,20 @@ import english.dictionary.app.ui.theme.backgroundColor
 
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(backgroundColor)) {
+fun ProfileScreen(
+    onAddNewWordButtonClicked: () -> Unit,
+    onOnlineListButtonClicked: () -> Unit,
+    onUpdateInformationClicked: () -> Unit
+) {
+    val userName = UserSettings.fullNameState.collectAsState().value
+    val education = UserSettings.educationState.collectAsState().value
+    val university = UserSettings.universityState.collectAsState().value
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(backgroundColor)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -43,8 +57,47 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
                 rightIcon = null,
                 onLeftIconClicked = {},
                 onRightIconClicked = {})
-            UserInformationSection(viewModel.getUser())
+            UserInformationSection(
+                fullName = userName,
+                education = education,
+                university = university
+            )
             DescriptionSection()
+            Spacer(modifier = Modifier.height(16.dp))
+            if (userName.isEmpty()) {
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    onClick = { onUpdateInformationClicked() }) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(id = R.string.updateInformation),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                onClick = { onAddNewWordButtonClicked() }) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.addNewWord),
+                    textAlign = TextAlign.Center
+                )
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                onClick = { onOnlineListButtonClicked() }) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.onlineList),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
@@ -52,7 +105,9 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
 //TODO change image
 @Composable
 fun UserInformationSection(
-    user: User
+    fullName: String,
+    education: String,
+    university: String
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -64,34 +119,21 @@ fun UserInformationSection(
         Column {
             TextWithIcon(
                 title = stringResource(id = R.string.fullName),
-                value = user.fullName(),
+                value = fullName.ifEmpty { "---" },
                 icon = R.drawable.education
             )
             TextWithIcon(
                 title = stringResource(id = R.string.university),
-                value = user.university,
+                value = education.ifEmpty { "---" },
                 icon = R.drawable.education
             )
             TextWithIcon(
                 title = stringResource(id = R.string.education),
-                value = user.education,
+                value = university.ifEmpty { "---" },
                 icon = R.drawable.education
             )
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun UserInformationPreview() {
-    UserInformationSection(
-        user = User(
-            "Ali",
-            lastName = "Javadi",
-            university = "Sistan and bluchestan",
-            education = "Compouter science"
-        )
-    )
 }
 
 @Composable

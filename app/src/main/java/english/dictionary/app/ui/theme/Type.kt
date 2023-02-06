@@ -28,7 +28,7 @@ val Typography = Typography(
     )
     */
 )
-val shabnam = FontFamily(
-    Font(R.font.shabnam_medium, FontWeight.Normal),
-    Font(R.font.shabnam_bold, FontWeight.Bold)
+val pelak = FontFamily(
+    Font(R.font.pelak_medium, FontWeight.Normal),
+    Font(R.font.pelak_bold, FontWeight.Bold)
 )

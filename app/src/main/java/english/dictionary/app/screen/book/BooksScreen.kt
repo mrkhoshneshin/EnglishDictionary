@@ -1,8 +1,6 @@
 package english.dictionary.app.screen.book
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +8,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -36,7 +35,13 @@ fun BooksScreen(books: List<Book>, onBookItemClicked: (Book) -> Unit) {
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 56.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Header(
                 modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 15.dp),
                 title = stringResource(id = R.string.books),
@@ -47,11 +52,17 @@ fun BooksScreen(books: List<Book>, onBookItemClicked: (Book) -> Unit) {
                 greetingTitle = false
             )
             Spacer(modifier = Modifier.height(12.dp))
-            LazyColumn {
-                items(books.size) {
+            Image(
+                modifier = Modifier.size(200.dp),
+                painter = painterResource(id = R.drawable.stack_of_books),
+                contentDescription = "booksStack"
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Column {
+                for (book in books) {
                     BookItem(
-                        book = books[it],
-                        onBookItemClicked = { book -> onBookItemClicked(book) })
+                        book = book,
+                        onBookItemClicked = { clickedBook -> onBookItemClicked(clickedBook) })
                 }
             }
         }
@@ -110,8 +121,28 @@ fun BookItem(book: Book, onBookItemClicked: (Book) -> Unit) {
 }
 
 fun books() = listOf(
-    Book(1,name = "X-ray Diffraction Crystallography",url = "https://drive.google.com/file/d/1NjPRX6yCegoy6jKMe9d8g6htmS4S6toL/view?usp=sharing", image = R.drawable.xray_diffraction),
-    Book(2, name = "Phase Transformations in metals and alloys", url = "https://drive.google.com/file/d/1t8iNVcqOqCqsfQBTAaKKTBZ5xHfoGnvp/view?usp=sharing", image = R.drawable.phase_transformations),
-    Book(3, name = "Metal forming", url = "https://drive.google.com/file/d/1E_EyoKEU3CjQtBlqfcjv31EE0ddNGX8a/view?usp=sharing", image = R.drawable.metal_forming),
-    Book(4, name = "Fundamentals of Materials Science and Engineering", url = "https://drive.google.com/file/d/1q2npPB3M1320TdyC1BX0USq0MLXOiDJi/view?usp=sharing", image = R.drawable.fundamentals_of_materials),
+    Book(
+        1,
+        name = "X-ray Diffraction Crystallography",
+        url = "https://drive.google.com/file/d/1NjPRX6yCegoy6jKMe9d8g6htmS4S6toL/view?usp=sharing",
+        image = R.drawable.xray_diffraction
+    ),
+    Book(
+        2,
+        name = "Phase Transformations in metals and alloys",
+        url = "https://drive.google.com/file/d/1t8iNVcqOqCqsfQBTAaKKTBZ5xHfoGnvp/view?usp=sharing",
+        image = R.drawable.phase_transformations
+    ),
+    Book(
+        3,
+        name = "Metal forming",
+        url = "https://drive.google.com/file/d/1E_EyoKEU3CjQtBlqfcjv31EE0ddNGX8a/view?usp=sharing",
+        image = R.drawable.metal_forming
+    ),
+    Book(
+        4,
+        name = "Fundamentals of Materials Science and Engineering",
+        url = "https://drive.google.com/file/d/1q2npPB3M1320TdyC1BX0USq0MLXOiDJi/view?usp=sharing",
+        image = R.drawable.fundamentals_of_materials
+    ),
 )

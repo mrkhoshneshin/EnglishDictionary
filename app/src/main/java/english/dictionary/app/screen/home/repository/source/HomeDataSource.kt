@@ -11,7 +11,9 @@ interface HomeDataSource {
     //Stuffs at middle of home screen
     fun getFeatures(): Flow<List<String>>
 
-    fun getUserName(): Flow<String>
+    suspend fun updateUserInformation()
 
     fun getSearchHistory(): Flow<List<Word>>
+
+    suspend fun getUserName(): String
 }

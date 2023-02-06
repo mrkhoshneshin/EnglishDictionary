@@ -35,7 +35,7 @@ private val LightColorPalette = lightColors(
 @Composable
 fun DefaultTextStyle(
     fontSize: TextUnit = MaterialTheme.typography.body1.fontSize,
-    fontFamily: FontFamily = shabnam,
+    fontFamily: FontFamily = pelak,
     fontWeight: FontWeight = FontWeight.Medium,
     color : Color = Color.Black
 ): TextStyle {
