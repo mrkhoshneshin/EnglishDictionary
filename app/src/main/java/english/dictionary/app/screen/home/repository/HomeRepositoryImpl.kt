@@ -20,12 +20,12 @@ class HomeRepositoryImpl @Inject constructor(private val dataSource: HomeDataSou
         TODO("Not yet implemented")
     }
 
-    override fun getUserName(): Flow<String> {
-       return dataSource.getUserName()
-    }
-
     override fun getSearchHistory(): Flow<List<Word>> {
         return dataSource.getSearchHistory()
+    }
+
+    override suspend fun getUserName(): String {
+        return dataSource.getUserName()
     }
 
 }

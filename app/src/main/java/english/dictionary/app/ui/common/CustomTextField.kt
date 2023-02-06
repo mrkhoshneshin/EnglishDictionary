@@ -48,7 +48,7 @@ fun CustomTextField(
                     Icon(
                         painter = painterResource(id = leadingIcon),
                         contentDescription = "searchIcon",
-                        tint = blue
+                        tint = iconTint
                     )
                 }
             },

@@ -1,5 +1,6 @@
 package english.dictionary.app.screen.word
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,15 +10,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import english.dictionary.app.R
 import english.dictionary.app.data.WordDetailData
 import english.dictionary.app.ui.common.Header
@@ -26,7 +31,6 @@ import english.dictionary.app.ui.theme.DefaultTextStyle
 //TODO implement receiving word scenario
 @Composable
 fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
-    val userName = viewModel.getUserName()
     val word = viewModel.getWord()
     var favoriteIconState by remember { mutableStateOf(WordDetailData.word.isFavorite) }
     Column(
@@ -36,7 +40,7 @@ fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
     ) {
         Header(
             modifier = Modifier.padding(bottom = 32.dp),
-            title = userName,
+            title = word.englishTitle ?: "",
             leftIcon = R.drawable.menu,
             rightIcon = if (favoriteIconState) R.drawable.heart_filled else R.drawable.heart_outlined,
             onLeftIconClicked = {},
@@ -55,7 +59,7 @@ fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
             text = if (word.englishDescription.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.englishDescription,
             style = DefaultTextStyle()
         )
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = if (word.persianTitle.isNullOrEmpty()) stringResource(id = R.string.notFound) else word.persianTitle,
@@ -74,9 +78,22 @@ fun WordScreen(viewModel: WordDetailViewModel = hiltViewModel()) {
                 .padding(top = 16.dp)
                 .height(200.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(Color.DarkGray)
+                .background(Color.LightGray),
+            contentAlignment = Alignment.Center
         ) {
-            //TODO change this box to image
+            if (word.image != null) {
+                AsyncImage(
+                    contentScale = ContentScale.Crop,
+                    model = word.image,
+                    contentDescription = ""
+                )
+            } else {
+                Image(
+                    modifier = Modifier.size(200.dp),
+                    painter = painterResource(id = R.drawable.red_book),
+                    contentDescription = "empty_state_image",
+                )
+            }
         }
     }
 }

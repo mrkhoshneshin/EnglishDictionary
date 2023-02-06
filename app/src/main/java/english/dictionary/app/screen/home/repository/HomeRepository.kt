@@ -11,7 +11,8 @@ interface HomeRepository {
     //Stuffs at middle of home screen
     fun getFeatures(): Flow<List<String>>
 
-    fun getUserName(): Flow<String>
 
     fun getSearchHistory() : Flow<List<Word>>
+
+    suspend fun getUserName() : String
 }
