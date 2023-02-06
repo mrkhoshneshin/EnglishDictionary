@@ -43,6 +43,7 @@ fun ProfileScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(bottom = 56.dp)
             .background(backgroundColor)
     ) {
         Column(
@@ -64,17 +65,16 @@ fun ProfileScreen(
             )
             DescriptionSection()
             Spacer(modifier = Modifier.height(16.dp))
-            if (userName.isEmpty()) {
-                OutlinedButton(
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                onClick = { onUpdateInformationClicked() }) {
+                Text(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    onClick = { onUpdateInformationClicked() }) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.updateInformation),
-                        textAlign = TextAlign.Center
-                    )
-                }
+                    text = stringResource(id = R.string.updateInformation),
+                    textAlign = TextAlign.Center,
+                    style = DefaultTextStyle()
+                )
             }
             Spacer(modifier = Modifier.height(5.dp))
             OutlinedButton(
@@ -84,7 +84,8 @@ fun ProfileScreen(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.addNewWord),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = DefaultTextStyle()
                 )
             }
             Spacer(modifier = Modifier.height(5.dp))
@@ -95,7 +96,8 @@ fun ProfileScreen(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.onlineList),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = DefaultTextStyle()
                 )
             }
         }
@@ -124,12 +126,12 @@ fun UserInformationSection(
             )
             TextWithIcon(
                 title = stringResource(id = R.string.university),
-                value = education.ifEmpty { "---" },
+                value = university.ifEmpty { "---" },
                 icon = R.drawable.education
             )
             TextWithIcon(
                 title = stringResource(id = R.string.education),
-                value = university.ifEmpty { "---" },
+                value = education.ifEmpty { "---" },
                 icon = R.drawable.education
             )
         }

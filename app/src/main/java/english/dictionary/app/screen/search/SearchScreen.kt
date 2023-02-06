@@ -21,10 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -111,30 +115,32 @@ fun SearchScreen(
                 label = stringResource(id = R.string.searchSomething),
                 onSearchIconClicked = { /*TODO*/ }) {
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 15.dp)
-            ) {
-                WordsList(
-                    words = words,
-                    onWordItemClicked = {
-                        it.visited = true
-                        onWordItemClicked(it)
-                        WordDetailData.word = it
-                        viewModel.updateWordForSearchedHistory(it)
-                    },
-                    scrollPosition = if (clickedAlphabetic.value.isEmpty()) null else words.indexOfFirst {
-                        it.englishTitle?.startsWith(
-                            clickedAlphabetic.value
-                        ) ?: false
-                    })
-                AlphabeticSection(
-                    onCharacterItemChanged = {
-                        viewModel.onAlphabeticCharItemClicked(it)
-                        viewModel.updateAlphabeticValue(it)
-                    }, selectedChar = clickedAlphabetic.value
-                )
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 15.dp)
+                ) {
+                    WordsList(
+                        words = words,
+                        onWordItemClicked = {
+                            it.visited = true
+                            onWordItemClicked(it)
+                            WordDetailData.word = it
+                            viewModel.updateWordForSearchedHistory(it)
+                        },
+                        scrollPosition = if (clickedAlphabetic.value.isEmpty()) null else words.indexOfFirst {
+                            it.englishTitle?.startsWith(
+                                clickedAlphabetic.value
+                            ) ?: false
+                        })
+                    AlphabeticSection(
+                        onCharacterItemChanged = {
+                            viewModel.onAlphabeticCharItemClicked(it)
+                            viewModel.updateAlphabeticValue(it)
+                        }, selectedChar = clickedAlphabetic.value
+                    )
+                }
             }
         }
     }

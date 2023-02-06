@@ -1,16 +1,20 @@
-package english.dictionary.app.screen.inputInformation
+package english.dictionary.app.screen.addBook
 
-import android.widget.Space
 import android.widget.Toast
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -18,28 +22,26 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import english.dictionary.app.R
-import english.dictionary.app.data.Education
+import english.dictionary.app.data.Word
 import english.dictionary.app.ui.common.CustomTextField
 import english.dictionary.app.ui.theme.*
-import english.dictionary.app.util.getLocale
-import java.util.*
 
 @Composable
-fun InputInformationScreen(
-    viewModel: InputInformationViewModel = hiltViewModel(),
+fun AddWordScreen(
+    viewModel: AddWordViewModel = hiltViewModel(),
     onSaveButtonClicked: () -> Unit
 ) {
-    var fullNameValue by remember { mutableStateOf("") }
-    var universityValue by remember { mutableStateOf("") }
-    var educationItemsVisibility by remember { mutableStateOf(false) }
-    var educationValue by remember { mutableStateOf(Education.getAll()[1]) }
+    var wordEnglishTitle by remember { mutableStateOf("") }
+    var wordPersianTitle by remember { mutableStateOf("") }
+    var englishDesc by remember { mutableStateOf("") }
+    var persianDesc by remember { mutableStateOf("") }
     val toastMessage = stringResource(id = R.string.checkEntries)
     val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +67,7 @@ fun InputInformationScreen(
                     top.linkTo(parent.top, margin = 40.dp)
                     start.linkTo(parent.start, margin = 24.dp)
                 },
-                text = stringResource(id = R.string.welcome),
+                text = stringResource(id = R.string.addNewWord),
                 style = DefaultTextStyle(
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -80,94 +82,73 @@ fun InputInformationScreen(
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
                     },
-                painter = painterResource(id = if (getLocale() == Locale.US) R.drawable.close_up_man else R.drawable.close_up_man_flip),
+                painter = painterResource(id = R.drawable.bookmark),
                 contentDescription = "man",
                 contentScale = ContentScale.FillBounds
             )
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            modifier = Modifier.padding(start = 15.dp),
-            text = stringResource(id = R.string.please) + "!",
-            style = DefaultTextStyle(
-                fontSize = MaterialTheme.typography.h5.fontSize,
-                fontWeight = FontWeight.Bold
-            ),
-        )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier.padding(start = 15.dp),
-            text = stringResource(id = R.string.fullName),
+            text = stringResource(id = R.string.englishTitle),
             style = DefaultTextStyle()
         )
         CustomTextField(
             modifier = Modifier.padding(start = 15.dp, end = 15.dp),
             label = "",
-            leadingIcon = { Icon(painter = painterResource(id = R.drawable.user), contentDescription = "")},
-            textFieldValue = fullNameValue,
+            leadingIcon = null,
+            textFieldValue = wordEnglishTitle,
             iconTint = Color.DarkGray,
-            onTextFieldTextChanged = { fullNameValue = it },
+            onTextFieldTextChanged = { wordEnglishTitle = it },
             onSearchIconClicked = { }) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier.padding(start = 15.dp),
-            text = stringResource(id = R.string.education),
-            style = DefaultTextStyle()
-        )
-        OutlinedButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .padding(start = 15.dp, end = 15.dp)
-                .clip(RoundedCornerShape(12.dp)),
-            onClick = { educationItemsVisibility = !educationItemsVisibility }) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row {
-                    Icon(
-                        painter = painterResource(id = R.drawable.university),
-                        tint = Color.DarkGray,
-                        contentDescription = ""
-                    )
-                    Text(text = "  $educationValue", style = DefaultTextStyle())
-                }
-                Icon(
-                    modifier = Modifier.rotate(90f), painter = painterResource(
-                        id = R.drawable.arrow_right,
-                    ), contentDescription = "icon", tint = Color.DarkGray
-                )
-            }
-        }
-        if (educationItemsVisibility) {
-            Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp)) {
-                for (i in Education.getAll()) {
-                    Text(
-                        text = i,
-                        style = DefaultTextStyle(color = if (educationValue.isNotEmpty() && educationValue == i) blue else Color.LightGray),
-                        modifier = Modifier.clickable {
-                            educationValue = i
-                            educationItemsVisibility = false
-                        })
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            modifier = Modifier.padding(start = 15.dp),
-            text = stringResource(id = R.string.university),
+            text = stringResource(id = R.string.persianTitle),
             style = DefaultTextStyle()
         )
         CustomTextField(
             modifier = Modifier.padding(start = 15.dp, end = 15.dp),
             label = "",
-            leadingIcon = { Icon(painter = painterResource(id = R.drawable.student_hat), contentDescription = "")},
-            textFieldValue = universityValue,
+            leadingIcon = null,
+            textFieldValue = wordPersianTitle,
             iconTint = Color.DarkGray,
-            onTextFieldTextChanged = { universityValue = it },
+            onTextFieldTextChanged = { wordPersianTitle = it },
+            onSearchIconClicked = { }) {
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            modifier = Modifier.padding(start = 15.dp),
+            text = stringResource(id = R.string.englishDesc),
+            style = DefaultTextStyle()
+        )
+        CustomTextField(
+            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+            label = "",
+            height = 150.dp,
+            singleLine = false,
+            leadingIcon = null,
+            textFieldValue = englishDesc,
+            iconTint = Color.DarkGray,
+            onTextFieldTextChanged = { englishDesc = it },
+            onSearchIconClicked = { }) {
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            modifier = Modifier.padding(start = 15.dp),
+            text = stringResource(id = R.string.persianDesc),
+            style = DefaultTextStyle()
+        )
+        CustomTextField(
+            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+            label = "",
+            singleLine = false,
+            height = 150.dp,
+            leadingIcon = null,
+            textFieldValue = persianDesc,
+            iconTint = Color.DarkGray,
+            onTextFieldTextChanged = { persianDesc = it },
             onSearchIconClicked = { }) {
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -180,15 +161,17 @@ fun InputInformationScreen(
             Button(
                 colors = ButtonDefaults.buttonColors(backgroundColor = blue),
                 onClick = {
-                    if (fullNameValue.isEmpty()) {
-                        Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
-                    } else if (universityValue.isEmpty()) {
+                    if (wordEnglishTitle.isEmpty() || wordPersianTitle.isEmpty() || englishDesc.isEmpty() || persianDesc.isEmpty()) {
                         Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
                     } else {
-                        viewModel.updateUserInformation(
-                            fullNameValue,
-                            educationValue,
-                            universityValue
+                        viewModel.addWord(
+                            Word(
+                                englishTitle = wordEnglishTitle,
+                                persianTitle = wordPersianTitle,
+                                englishDescription = englishDesc,
+                                persianDescription = persianDesc,
+                                image = null
+                            )
                         )
                         onSaveButtonClicked()
                     }
@@ -203,10 +186,4 @@ fun InputInformationScreen(
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun InputInformationPreview() {
-    InputInformationScreen(onSaveButtonClicked = {})
 }
